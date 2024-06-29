@@ -5,3 +5,5 @@ ProjectLex.InventoryManagement.Database/bin/
 ProjectLex.InventoryManagement.Database/obj/
 ProjectLex.InventoryManagement.Database/PopulateDatabase.cs
 ProjectLex.InventoryManagement.Database/Program.cs
+.vs/ProjectLex.InventoryManagement/v17/DocumentLayout.json
+/.vs

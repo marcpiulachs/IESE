@@ -9,6 +9,6 @@
   //]
 
   "ConnectionStrings": {
-    "DB": "Server=localhost;Database=InventoryA;Trusted_Connection=True"
+    "DB": "Server=localhost;Database=InventoryA;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true"
   }
 }
