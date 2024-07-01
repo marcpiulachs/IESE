@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
@@ -101,7 +101,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private void LoadCustomers()
         {
             _customers.Clear();
-            foreach (Customer u in _unitOfWork.CustomerRepository.Get(includeProperties: "Staff"))
+            foreach (Customer u in _unitOfWork.CustomerRepository.Get(includeProperties: "Staff,Carrier"))
             {
                 _customers.Add(new CustomerViewModel(u));
             }

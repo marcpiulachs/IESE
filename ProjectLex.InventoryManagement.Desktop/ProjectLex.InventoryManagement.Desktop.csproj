@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <StartupObject>ProjectLex.InventoryManagement.Desktop.App</StartupObject>
     <ApplicationIcon>Assets\IMSLogo.ico</ApplicationIcon>
@@ -71,10 +71,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -159,6 +159,12 @@
     <Compile Update="Views\RoleViews\RoleListView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\CarrierViews\CarrierFormView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\CarrierViews\CarrierListView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\SupplierViews\SupplierFormView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -220,6 +226,9 @@
     <Page Update="Views\RoleViews\RoleListView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\CarrierViews\CarrierFormView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Views\SupplierViews\SupplierFormView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

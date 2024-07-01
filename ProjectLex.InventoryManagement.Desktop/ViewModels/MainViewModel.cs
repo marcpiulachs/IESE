@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.Stores;
 using System;
@@ -36,8 +36,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand NavigateToStorageListCommand { get; }
         public RelayCommand NavigateToDashboardCommand { get; }
         public RelayCommand NavigateToLogListCommand { get; }
-
+        public RelayCommand NavigateToCarrierListCommand { get; }
         public RelayCommand LogOutCommand { get; }
+
         public MainViewModel(NavigationStore navigationStore, AuthenticationStore authenticationStore)
         {
             _navigationStore = navigationStore;
@@ -63,6 +64,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             NavigateToStorageListCommand = new RelayCommand(NavigateToStorageList);
             NavigateToDashboardCommand = new RelayCommand(NavigateToDashboard);
             NavigateToLogListCommand = new RelayCommand(NavigateToLogList);
+            NavigateToCarrierListCommand = new RelayCommand(NavigateToCarrierList);
             LogOutCommand = new RelayCommand(LogOut);
 
         }
@@ -106,10 +108,14 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _navigationStore.CurrentViewModel = CategoryListViewModel.LoadViewModel(_navigationStore);
         }
 
-
         public void NavigateToSupplierList()
         {
             _navigationStore.CurrentViewModel = SupplierListViewModel.LoadViewModel(_navigationStore);
+        }
+
+        public void NavigateToCarrierList()
+        {
+            _navigationStore.CurrentViewModel = CarrierListViewModel.LoadViewModel(_navigationStore);
         }
 
         public void NavigateToStaffList()

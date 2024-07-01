@@ -56,8 +56,6 @@
     </DataTemplate>
 
 
-
-
     <DataTemplate DataType="{x:Type view_models:SupplierListViewModel}">
         <views:SupplierListView />
     </DataTemplate>
@@ -70,6 +68,17 @@
         <views:SupplierFormView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type view_models:CarrierListViewModel}">
+        <views:CarrierListView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type view_models:CreateCarrierViewModel}">
+        <views:CarrierFormView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type view_models:EditCarrierViewModel}">
+        <views:CarrierFormView />
+    </DataTemplate>
 
 
 

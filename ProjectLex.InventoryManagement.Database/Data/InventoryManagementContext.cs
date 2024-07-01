@@ -12,8 +12,8 @@ namespace ProjectLex.InventoryManagement.Database.Data
 {
     public class InventoryManagementContext : DbContext
     {
-
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Carrier> Carriers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
@@ -24,6 +24,9 @@ namespace ProjectLex.InventoryManagement.Database.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Defective> Defectives { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<FulFill> FulFills { get; set; }
+        public DbSet<Package> Packages { get; set; }
         public DbSet<ProductLocation> ProductLocations { get; set; }
         public DbSet<Log> Logs { get; set; }
 
@@ -38,6 +41,12 @@ namespace ProjectLex.InventoryManagement.Database.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*
+            modelBuilder.Entity<Order>()
+                .HasMany(e => e.OrderDetails)
+                .WithOne(e => e.Order)
+                .HasForeignKey(e => e.OrderID)
+                .IsRequired(false);
 
             modelBuilder
                 .Entity<OrderDetail>()
@@ -46,7 +55,7 @@ namespace ProjectLex.InventoryManagement.Database.Data
             modelBuilder
                 .Entity<ProductLocation>()
                 .HasKey(pl => new { pl.ProductID, pl.LocationID });
-
+            */
         }
 
     }

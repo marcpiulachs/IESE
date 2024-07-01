@@ -9,7 +9,6 @@ namespace ProjectLex.InventoryManagement.Database.Models
 {
     public class Category
     {
-
         [Key]
         public Guid CategoryID { get; set; }
         public string CategoryName { get; set; }

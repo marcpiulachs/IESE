@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectLex.InventoryManagement.Database.Data;
 
+#nullable disable
+
 namespace ProjectLex.InventoryManagement.Database.Migrations
 {
     [DbContext(typeof(InventoryManagementContext))]
@@ -15,9 +17,36 @@ namespace ProjectLex.InventoryManagement.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.13")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Carrier", b =>
+                {
+                    b.Property<Guid>("CarrierID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CarrierAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CarrierEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CarrierName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CarrierPhone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CarrierStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CarrierID");
+
+                    b.ToTable("Carriers");
+                });
 
             modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Category", b =>
                 {
@@ -90,6 +119,68 @@ namespace ProjectLex.InventoryManagement.Database.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("Defectives");
+                });
+
+            modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.FulFill", b =>
+                {
+                    b.Property<Guid>("FulFillID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CustomerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("FulFillDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FulFillStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StaffID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("FulFillID", "OrderID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.HasIndex("OrderID");
+
+                    b.HasIndex("StaffID");
+
+                    b.ToTable("FulFills");
+                });
+
+            modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Invoice", b =>
+                {
+                    b.Property<Guid>("InvoiceID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CustomerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("InvoiceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InvoiceStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StaffID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("InvoiceID", "OrderID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.HasIndex("OrderID");
+
+                    b.HasIndex("StaffID");
+
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Location", b =>
@@ -167,17 +258,49 @@ namespace ProjectLex.InventoryManagement.Database.Migrations
                     b.Property<Guid>("OrderID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("DeliveryStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("OrderDetailAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("OrderDetailQuantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("OrderFulFillStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ProductID", "OrderID");
 
                     b.HasIndex("OrderID");
 
                     b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Package", b =>
+                {
+                    b.Property<Guid>("PackageID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("FulFillID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("FulFillOrderID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Weight")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("PackageID", "OrderID");
+
+                    b.HasIndex("OrderID");
+
+                    b.HasIndex("FulFillID", "FulFillOrderID");
+
+                    b.ToTable("Packages");
                 });
 
             modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Product", b =>
@@ -242,6 +365,18 @@ namespace ProjectLex.InventoryManagement.Database.Migrations
                     b.Property<Guid>("RoleID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("CarriersAdd")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CarriersDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CarriersEdit")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CarriersView")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("CategoriesAdd")
                         .HasColumnType("bit");
@@ -500,6 +635,56 @@ namespace ProjectLex.InventoryManagement.Database.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.FulFill", b =>
+                {
+                    b.HasOne("ProjectLex.InventoryManagement.Database.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID");
+
+                    b.HasOne("ProjectLex.InventoryManagement.Database.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectLex.InventoryManagement.Database.Models.Staff", "Staff")
+                        .WithMany()
+                        .HasForeignKey("StaffID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Staff");
+                });
+
+            modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Invoice", b =>
+                {
+                    b.HasOne("ProjectLex.InventoryManagement.Database.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID");
+
+                    b.HasOne("ProjectLex.InventoryManagement.Database.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectLex.InventoryManagement.Database.Models.Staff", "Staff")
+                        .WithMany()
+                        .HasForeignKey("StaffID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Staff");
+                });
+
             modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Log", b =>
                 {
                     b.HasOne("ProjectLex.InventoryManagement.Database.Models.Staff", "Staff")
@@ -539,6 +724,21 @@ namespace ProjectLex.InventoryManagement.Database.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Package", b =>
+                {
+                    b.HasOne("ProjectLex.InventoryManagement.Database.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectLex.InventoryManagement.Database.Models.FulFill", null)
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("FulFillID", "FulFillOrderID");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Product", b =>
@@ -593,6 +793,11 @@ namespace ProjectLex.InventoryManagement.Database.Migrations
             modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.FulFill", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("ProjectLex.InventoryManagement.Database.Models.Location", b =>

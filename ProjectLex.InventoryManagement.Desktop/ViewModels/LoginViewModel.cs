@@ -1,5 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
@@ -65,6 +65,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         public void ToggleTheme()
         {
+            /*
             ITheme theme = paletteHelper.GetTheme();
 
             if (IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
@@ -78,13 +79,12 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 theme.SetBaseTheme(Theme.Dark);
             }
 
-            paletteHelper.SetTheme(theme);
+            paletteHelper.SetTheme(theme);*/
         }
 
         public void ExitApp()
         {
             Application.Current.Shutdown();
-
         }
 
 

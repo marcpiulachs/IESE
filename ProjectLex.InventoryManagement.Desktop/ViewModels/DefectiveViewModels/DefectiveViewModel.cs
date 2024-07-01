@@ -14,6 +14,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public string DefectiveID => _defective.DefectiveID.ToString();
         public string Quantity => _defective.Quantity.ToString();
         public string DateDeclared => _defective.DateDeclared.ToString();
+        public string DefectiveStatus => _defective.DefectiveStatus.ToString();
 
         public ProductViewModel Product
         {
@@ -26,9 +27,6 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 return null;
             }
         }
-
-
-
 
         public DefectiveViewModel(Defective defective)
         {

@@ -22,8 +22,8 @@
 
         <Label Grid.Row="0" FontSize="48" FontWeight="DemiBold">
             <StackPanel Orientation="Horizontal">
-                <Image Source="/Assets/IMSLogo.png" Width="50" VerticalAlignment="Center"/>
-                <TextBlock Text=" IMS INVOICE" VerticalAlignment="Center" Foreground="Black"/>
+                <Image Source="/Assets/logo.png" Width="50" VerticalAlignment="Center"/>
+                <TextBlock Text=" IESE INVOICE" VerticalAlignment="Center" Foreground="Black"/>
             </StackPanel>
         </Label>
         
@@ -37,6 +37,7 @@
             
             <Grid Grid.Column="0" Margin="0 0 50 0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -70,6 +71,13 @@
                         <TextBlock Grid.Column="1" Text="{Binding Order.Customer.CustomerPhone}" Foreground="Black"/>
                     </StackPanel>
                 </Grid>
+
+                <Grid Grid.Row="4" Margin="0 12 0 0">
+                    <StackPanel>
+                        <TextBlock Grid.Column="0" Text="Currier: " FontWeight="Bold" Foreground="Black"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Order.Customer.Carrier.CarrierName}" Foreground="Black"/>
+                    </StackPanel>
+                </Grid>                
             </Grid>
 
             <Grid Grid.Column="1">
@@ -174,12 +182,12 @@
 
                 <Rectangle Grid.Row="3" Height="1" Fill="{StaticResource MaterialDesignDivider}"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock
-                        Text="₱ "
-                        FontSize="32"
-                        FontWeight="DemiBold" Foreground="Black"/>
                     <TextBlock 
                         Text="{Binding Order.OrderTotal}" 
+                        FontSize="32"
+                        FontWeight="DemiBold" Foreground="Black"/>
+                    <TextBlock
+                        Text="€"
                         FontSize="32"
                         FontWeight="DemiBold" Foreground="Black"/>
                 </StackPanel>

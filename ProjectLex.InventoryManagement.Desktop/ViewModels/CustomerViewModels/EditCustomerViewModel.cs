@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
@@ -90,6 +90,16 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
+        public string _carrierID;
+        [Required(ErrorMessage = "Carrier is Required")]
+        public string CarrierID
+        {
+            get => _carrierID;
+            set
+            {
+                SetProperty(ref _carrierID, value, true);
+            }
+        }
 
         private readonly NavigationStore _navigationStore;
         private readonly UnitOfWork _unitOfWork;
@@ -98,23 +108,30 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private readonly ObservableCollection<StaffViewModel> _staffs;
         public IEnumerable<StaffViewModel> Staffs => _staffs;
 
+        private readonly ObservableCollection<CarrierViewModel> _carriers;
+        public IEnumerable<CarrierViewModel> Carriers => _carriers;
+
         public RelayCommand SubmitCommand { get; }
         public RelayCommand CancelCommand { get; }
         public RelayCommand LoadStaffsCommand { get; }
+        private RelayCommand LoadCarriersCommand { get; }
 
         public EditCustomerViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Customer customer, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _customer = customer;
             _unitOfWork = unitOfWork;
-            _staffs = new ObservableCollection<StaffViewModel>();
             _closeDialogCallback = closeDialogCallback;
 
             SetInitialValues(_customer);
 
+            _staffs = new ObservableCollection<StaffViewModel>();
+            _carriers = new ObservableCollection<CarrierViewModel>();
+
             SubmitCommand = new RelayCommand(Submit);
             CancelCommand = new RelayCommand(Cancel);
             LoadStaffsCommand = new RelayCommand(LoadStaffs);
+            LoadCarriersCommand = new RelayCommand(LoadCarriers);
         }
 
         private void Submit()
@@ -130,6 +147,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _customer.CustomerAddress = CustomerAddress;
             _customer.CustomerPhone = CustomerPhone;
             _customer.CustomerEmail = CustomerEmail;
+            _customer.CarrierID = new Guid(CarrierID);
 
             _unitOfWork.CustomerRepository.Update(_customer);
             _unitOfWork.LogRepository.Insert(LogUtil.CreateLog(LogCategory.CUSTOMERS, ActionType.UPDATE, $"Customer updated; CustomerID:{_customer.CustomerID};"));
@@ -154,10 +172,21 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         }
 
+        private void LoadCarriers()
+        {
+            _carriers.Clear();
+            foreach (Carrier c in _unitOfWork.CarrierRepository.Get(filter: c => c.CarrierStatus == "Active"))
+            {
+                _carriers.Add(new CarrierViewModel(c));
+            }
+
+        }
+
         public static EditCustomerViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Customer customer, Action closeDialogCallback)
         {
             EditCustomerViewModel viewModel = new EditCustomerViewModel(navigationStore, unitOfWork, customer, closeDialogCallback);
             viewModel.LoadStaffsCommand.Execute(null);
+            viewModel.LoadCarriersCommand.Execute(null);
             return viewModel;
 
         }
@@ -169,6 +198,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             CustomerAddress = customer.CustomerAddress;
             CustomerPhone = customer.CustomerPhone;
             CustomerEmail = customer.CustomerEmail;
+            CarrierID = customer.CarrierID.ToString();
         }
 
 

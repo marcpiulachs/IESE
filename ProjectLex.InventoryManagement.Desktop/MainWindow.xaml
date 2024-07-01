@@ -11,8 +11,7 @@
         d:Height="1080"
         Title="MainWindow"
         WindowState="Maximized"
-        Icon="/Assets/logo.png"
-        WindowStyle="None"
+        WindowStyle="ThreeDBorderWindow"
         Background="{DynamicResource MaterialDesignBackground}"
         Foreground="{DynamicResource MaterialDesignBody}"
         FontFamily="Sogoe UI">
@@ -50,8 +49,8 @@
 
         <Label Grid.Row="1" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10">
             <StackPanel >
-                <TextBlock Text="Powered By: PROJECT LEX LABS" HorizontalAlignment="Center"/>
-                <TextBlock Text="© PROJECT LEX LABS Inc. All rights reserved." HorizontalAlignment="Center"/>
+                <TextBlock Text="" HorizontalAlignment="Center"/>
+                <TextBlock Text="" HorizontalAlignment="Center"/>
             </StackPanel>
         </Label>
     </Grid>

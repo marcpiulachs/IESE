@@ -20,6 +20,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Grid
@@ -163,10 +164,37 @@
                     Style="{ StaticResource MaterialDesignTextBox }"
                     Padding="10"/>
             </Grid>
+            
+            
+        </Grid>
+
+        <Grid 
+            Grid.Row="4"
+            Margin="0 30 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock 
+                    Grid.Row="0" 
+                    Text="Category" 
+                    Style="{ StaticResource MaterialDesignTextBlock }"
+                    FontWeight="DemiBold"/>
+
+            <ComboBox 
+                    Grid.Row="1"
+                    Padding="10"
+                    Style="{ StaticResource MaterialDesignComboBox }"
+                    ItemsSource="{ Binding Carriers }"
+                    SelectedValue="{ Binding CarrierID }"
+                    SelectedValuePath="CarrierID"
+                    DisplayMemberPath="CarrierName"/>
         </Grid>
 
         <StackPanel 
-                Grid.Row="4" 
+                Grid.Row="5" 
                 Orientation="Horizontal"
                 Margin="0 30 0 0">
             <Button 

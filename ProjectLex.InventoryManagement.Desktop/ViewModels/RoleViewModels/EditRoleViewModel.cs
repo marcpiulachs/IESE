@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
@@ -147,6 +147,12 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _role.SuppliersAdd = RolePrivilegesHelper.SuppliersAdd;
             _role.SuppliersEdit = RolePrivilegesHelper.SuppliersEdit;
             _role.SuppliersDelete = RolePrivilegesHelper.SuppliersDelete;
+
+
+            _role.CarriersView = RolePrivilegesHelper.CarriersView;
+            _role.CarriersAdd = RolePrivilegesHelper.CarriersAdd;
+            _role.CarriersEdit = RolePrivilegesHelper.CarriersEdit;
+            _role.CarriersDelete = RolePrivilegesHelper.CarriersDelete;
 
 
             _role.RolesView = RolePrivilegesHelper.RolesView;

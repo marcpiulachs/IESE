@@ -15,5 +15,6 @@ namespace ProjectLex.InventoryManagement.Database.Models
         public int Quantity { get; set; }
         public DateTime DateDeclared { get; set; }
         public Product Product { get; set; }
+        public string DefectiveStatus { get; set; }
     }
 }

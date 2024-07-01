@@ -62,6 +62,11 @@ namespace ProjectLex.InventoryManagement.Database.Models
         public bool SuppliersEdit { get; set; }
         public bool SuppliersDelete { get; set; }
 
+        public bool CarriersView { get; set; }
+        public bool CarriersAdd { get; set; }
+        public bool CarriersEdit { get; set; }
+        public bool CarriersDelete { get; set; }
+
 
         public bool RolesView { get; set; }
         public bool RolesAdd { get; set; }

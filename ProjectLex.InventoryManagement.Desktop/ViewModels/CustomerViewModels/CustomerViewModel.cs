@@ -33,6 +33,19 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
+        public string CarrierID => _customer.CarrierID.ToString();
+        public CarrierViewModel Carrier
+        {
+            get
+            {
+                if (_customer.Carrier != null)
+                {
+                    return new CarrierViewModel(_customer.Carrier);
+                }
+                return null;
+            }
+        }
+
         public CustomerViewModel(Customer customer)
         {
             _customer = customer;

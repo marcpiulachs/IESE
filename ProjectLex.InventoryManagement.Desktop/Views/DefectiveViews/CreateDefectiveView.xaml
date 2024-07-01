@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:ProjectLex.InventoryManagement.Desktop.Views"
              xmlns:views="clr-namespace:ProjectLex.InventoryManagement.Desktop.Views"
              xmlns:view_models="clr-namespace:ProjectLex.InventoryManagement.Desktop.ViewModels"
+             xmlns:utilities="clr-namespace:ProjectLex.InventoryManagement.Desktop.Utilities"
              mc:Ignorable="d" 
              d:Background="White">
     
@@ -38,6 +39,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Grid
@@ -61,7 +63,8 @@
             </Grid>
 
             <Grid
-                Grid.Column="1">
+                Grid.Column="1"
+                Margin="0 0 30 0">
                 <StackPanel>
                     <TextBlock 
                         Text="Quantity" 
@@ -72,6 +75,25 @@
                         Text="{ Binding Quantity, UpdateSourceTrigger=PropertyChanged }"
                         Style="{ StaticResource MaterialDesignTextBox }"
                         Padding="10"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid 
+                Grid.Column="2">
+                <StackPanel>
+
+                <TextBlock 
+                    Grid.Row="0" 
+                    Text="Availability" 
+                    Style="{ StaticResource MaterialDesignTextBlock }"
+                    FontWeight="DemiBold"/>
+
+                    <ComboBox 
+                    Grid.Row="1"
+                    Padding="10"
+                    Style="{ StaticResource MaterialDesignComboBox }"
+                    ItemsSource="{ Binding Source={x:Static utilities:Constants.Availabilities}, Mode=OneWay}"
+                    SelectedItem="{Binding ProductAvailability}"/>
                 </StackPanel>
             </Grid>
         </Grid>

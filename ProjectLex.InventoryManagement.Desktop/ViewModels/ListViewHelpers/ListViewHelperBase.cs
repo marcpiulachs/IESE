@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Desktop.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Windows.Data;
 
 namespace ProjectLex.InventoryManagement.Desktop.ViewModels.ListViewHelpers
 {
-    public abstract class ListViewHelperBase<TViewModel> : ViewModelBase
+    public abstract class ListViewHelperBase<TViewModel> : ViewModelBase where TViewModel : class
     {
         private bool _isDisposed = false;
 
@@ -81,7 +81,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels.ListViewHelpers
         {
             _databaseCollection = databaseCollection;
             _collectionView = CollectionViewSource.GetDefaultView(databaseCollection);
-            _collectionView.Filter = FilterCollection;
+            _collectionView.Filter = FilterCollection2;
             DisplayCollection = displayCollection;
 
             NextPageCommand = new RelayCommand(NextPage, () => CurrentPage < NumberOfPages);
@@ -90,7 +90,12 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels.ListViewHelpers
             LastPageCommand = new RelayCommand(LastPage, () => CurrentPage < NumberOfPages);
         }
 
-        protected abstract bool FilterCollection(object obj);
+        protected bool FilterCollection2(object obj)
+        {
+            return FilterCollection(obj as TViewModel);
+        }
+
+        protected abstract bool FilterCollection(TViewModel obj);
 
 
         private void UpdateRecordsPerPage()

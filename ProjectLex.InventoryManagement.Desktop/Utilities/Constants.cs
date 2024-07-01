@@ -39,6 +39,31 @@ namespace ProjectLex.InventoryManagement.Desktop.Utilities
 
         public static IEnumerable<string> DeliveryStatuses = _deliveryStatuses;
 
+        private static IEnumerable<string> _fulfillOrderDetailStatuses = new List<string>()
+        {
+            "Out of Stock",
+            "Low Stock"
+        };
+
+        public static IEnumerable<string> FulfillOrderDetailStatuses = _fulfillOrderDetailStatuses;
+
+        private static IEnumerable<string> _fulfillStatuses = new List<string>()
+        {
+            "In Progress",
+            "Completed",
+            "Shipped"
+        };
+
+        public static IEnumerable<string> FulfillStatuses = _fulfillStatuses;
+
+
+        public static IEnumerable<string> DefectiveStatuses = new List<string>()
+        {
+            "Get",
+            "Defective",
+            "Disposal"
+        };
+
         public enum LogCategory
         {
             ORDERS,
@@ -51,6 +76,7 @@ namespace ProjectLex.InventoryManagement.Desktop.Utilities
             SUPPLIERS,
             ROLES,
             STAFFS,
+            CARRIERS
         }
 
         public enum ActionType

@@ -230,6 +230,12 @@
     <Page Update="Views\ProductViews\ProductFormView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\CarrierViews\CarrierFormView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\CarrierViews\CarrierListView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\SupplierViews\SupplierFormView.xaml">
       <SubType>Designer</SubType>
     </Page>

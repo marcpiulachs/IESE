@@ -85,6 +85,13 @@
                                 Binding="{Binding DateDeclared}"
                                 Width="auto"/>
 
+                        <DataGridTextColumn
+                                Header="Status"
+                                HeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"
+                                CellStyle="{StaticResource MaterialDesignDataGridCell}"
+                                Binding="{Binding DefectiveStatus}"
+                                Width="auto"/>
+
                         <DataGridTemplateColumn
                             Header="Actions"
                             HeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"

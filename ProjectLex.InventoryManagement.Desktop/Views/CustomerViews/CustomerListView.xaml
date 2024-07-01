@@ -105,14 +105,20 @@
                                 CellStyle="{StaticResource MaterialDesignDataGridCell}"
                                 Binding="{Binding CustomerEmail}"
                                 Width="auto"/>
-                        
+
                         <DataGridTextColumn
-                                Header="Assigned Staff"
-                                HeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"
-                                CellStyle="{StaticResource MaterialDesignDataGridCell}"
-                                Binding="{Binding Staff.StaffFullname}"
-                                Width="auto"/>
-                        
+        Header="Staff"
+        HeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"
+        CellStyle="{StaticResource MaterialDesignDataGridCell}"
+        Binding="{Binding Staff.StaffFullname}"
+        Width="auto"/>
+
+                        <DataGridTextColumn
+        Header="Carrier"
+        HeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"
+        CellStyle="{StaticResource MaterialDesignDataGridCell}"
+        Binding="{Binding Carrier.CarrierName}"
+        Width="auto"/>
                         <DataGridTemplateColumn
                             Header="Actions"
                             HeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"

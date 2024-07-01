@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
@@ -94,10 +94,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private RelayCommand LoadProductsCommand { get; }
         private Action _closeDialogCallback;
 
-        public CreateOrderDetailViewModel(NavigationStore navigationStore, Order order, Action closeDialogCallback)
+        public CreateOrderDetailViewModel(NavigationStore navigationStore, Order order, UnitOfWork u, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = u;
             _order = order;
             _closeDialogCallback = closeDialogCallback;
             _products = new ObservableCollection<ProductViewModel>();
@@ -113,7 +113,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             if (HasErrors)
             {
                 return;
-            } else if (Convert.ToInt32(_orderDetailQuantity) < 1)
+            }
+            else if (Convert.ToInt32(_orderDetailQuantity) < 1)
             {
                 MessageBox.Show("Only quantities greater than 0 is allowed");
                 return;
@@ -126,29 +127,33 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 {
                     OrderID = _order.OrderID,
                     Product = _product.Product,
-                    ProductID = new Guid(this._productID),
+                    //ProductID = new Guid(this._productID),
                     OrderDetailQuantity = Convert.ToInt32(this._orderDetailQuantity),
-                    OrderDetailAmount = Convert.ToDecimal(this._orderDetailAmount)
+                    OrderDetailAmount = Convert.ToDecimal(this._orderDetailAmount),
+                    //OrderFulFillStatus = "Pending", 
+                    //OrderFulFillQuantity = 0
                 };
-                
 
-                Product storedProduct = _unitOfWork.ProductRepository.GetByID(newOrderDetail.ProductID);
-                if(Convert.ToInt32(_orderDetailQuantity) > storedProduct.ProductQuantity)
+                Product storedProduct = _unitOfWork.ProductRepository.GetByID(newOrderDetail.Product.ProductID);
+                if (Convert.ToInt32(_orderDetailQuantity) > storedProduct.ProductQuantity)
                 {
                     MessageBox.Show("Insufficient stocks!");
                     return;
-                } else
+                }
+                else
                 {
                     _order.OrderDetails.Add(newOrderDetail);
                     storedProduct.ProductQuantity -= newOrderDetail.OrderDetailQuantity;
                 }
-            } else
+            }
+            else
             {
-                if(Convert.ToInt32(_orderDetailQuantity) > storedOrderDetail.Product.ProductQuantity)
+                if (Convert.ToInt32(_orderDetailQuantity) > storedOrderDetail.Product.ProductQuantity)
                 {
                     MessageBox.Show("Insufficient stocks!");
                     return;
-                } else
+                }
+                else
                 {
                     storedOrderDetail.OrderDetailQuantity += Convert.ToInt32(_orderDetailQuantity);
                     storedOrderDetail.OrderDetailAmount = storedOrderDetail.OrderDetailQuantity * storedOrderDetail.Product.ProductPrice;
@@ -173,9 +178,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static CreateOrderDetailViewModel LoadViewModel(NavigationStore navigationStore, Order order, Action closeDialogCallback)
+        public static CreateOrderDetailViewModel LoadViewModel(NavigationStore navigationStore, Order order, UnitOfWork u, Action closeDialogCallback)
         {
-            CreateOrderDetailViewModel viewModel = new CreateOrderDetailViewModel(navigationStore, order, closeDialogCallback);
+            CreateOrderDetailViewModel viewModel = new CreateOrderDetailViewModel(navigationStore, order, u, closeDialogCallback);
             return viewModel;
         }
 

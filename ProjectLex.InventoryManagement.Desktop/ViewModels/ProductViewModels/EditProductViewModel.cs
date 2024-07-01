@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
@@ -131,10 +131,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _unitOfWork = unitOfWork;
             _closeDialogCallback = closeDialogCallback;
             _product = product;
+            _suppliers = new ObservableCollection<SupplierViewModel>();
 
             SetInitialValues(_product);
 
-            _suppliers = new ObservableCollection<SupplierViewModel>();
             _categories = new ObservableCollection<CategoryViewModel>();
             _locations = new ObservableCollection<LocationViewModel>();
 

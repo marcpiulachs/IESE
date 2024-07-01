@@ -22,7 +22,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels.ListViewHelpers
 
 
 
-        protected override bool FilterCollection(object obj)
+        protected override bool FilterCollection(StaffViewModel obj)
         {
             if(obj is StaffViewModel viewModel)
             {

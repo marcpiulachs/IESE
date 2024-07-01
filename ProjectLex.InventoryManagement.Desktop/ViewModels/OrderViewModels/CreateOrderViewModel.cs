@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
@@ -154,7 +154,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private void EditOrderDetail(OrderDetailViewModel orderDetailViewModel)
         {
             _dialogViewModel?.Dispose();
-            _dialogViewModel = EditOrderDetailViewModel.LoadViewModel(_navigationStore, orderDetailViewModel.OrderDetail, CloseDialogCallback);
+            _dialogViewModel = EditOrderDetailViewModel.LoadViewModel(_navigationStore, orderDetailViewModel.OrderDetail, _unitOfWork, CloseDialogCallback);
             OnPropertyChanged(nameof(DialogViewModel));
 
             _isDialogOpen = true;
@@ -182,7 +182,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private void CreateOrderDetail()
         {
             _dialogViewModel?.Dispose();
-            _dialogViewModel = CreateOrderDetailViewModel.LoadViewModel(_navigationStore, _order, CloseDialogCallback);
+            _dialogViewModel = CreateOrderDetailViewModel.LoadViewModel(_navigationStore, _order, _unitOfWork, CloseDialogCallback);
             OnPropertyChanged(nameof(DialogViewModel));
 
             _isDialogOpen = true;

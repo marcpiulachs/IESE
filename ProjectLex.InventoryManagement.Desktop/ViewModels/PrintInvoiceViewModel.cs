@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.Controls;
 using ProjectLex.InventoryManagement.Desktop.DAL;
@@ -42,7 +42,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _navigationStore = navigationStore;
             _unitOfWork = new UnitOfWork();
 
-            _order = new OrderViewModel(_unitOfWork.OrderRepository.Get(filter: o => o.OrderID == orderID, includeProperties: "Customer,OrderDetails,OrderDetails.Product").SingleOrDefault());
+            _order = new OrderViewModel(_unitOfWork.OrderRepository.Get(filter: o => o.OrderID == orderID, includeProperties: "Customer,Customer.Carrier,OrderDetails,OrderDetails.Product").SingleOrDefault());
 
             _orderDetails = new ObservableCollection<OrderDetailViewModel>();
 

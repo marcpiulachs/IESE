@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
@@ -72,10 +72,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand CancelCommand { get; }
         private Action _closeDialogCallback;
 
-        public EditOrderDetailViewModel(NavigationStore navigationStore, OrderDetail orderDetail, Action closeDialogCallback)
+        public EditOrderDetailViewModel(NavigationStore navigationStore, OrderDetail orderDetail, UnitOfWork u, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = u;
             _closeDialogCallback = closeDialogCallback;
 
             SetInitialValues(orderDetail);
@@ -134,9 +134,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static EditOrderDetailViewModel LoadViewModel(NavigationStore navigationStore, OrderDetail orderDetail, Action closeDialogCallback)
+        public static EditOrderDetailViewModel LoadViewModel(NavigationStore navigationStore, OrderDetail orderDetail, UnitOfWork u, Action closeDialogCallback)
         {
-            EditOrderDetailViewModel viewModel = new EditOrderDetailViewModel(navigationStore, orderDetail, closeDialogCallback);
+            EditOrderDetailViewModel viewModel = new EditOrderDetailViewModel(navigationStore, orderDetail, u, closeDialogCallback);
             return viewModel;
         }
 

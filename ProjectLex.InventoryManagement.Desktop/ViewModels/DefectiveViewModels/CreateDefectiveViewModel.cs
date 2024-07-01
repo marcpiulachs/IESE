@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
@@ -42,6 +42,17 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             set
             {
                 SetProperty(ref _quantity, value, true);
+            }
+        }
+
+        public string _status;
+        [Required(ErrorMessage = "Availability is Required")]
+        public string Status
+        {
+            get => _status;
+            set
+            {
+                SetProperty(ref _status, value, true);
             }
         }
 

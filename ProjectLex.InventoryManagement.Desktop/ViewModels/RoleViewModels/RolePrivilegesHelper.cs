@@ -263,6 +263,36 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
 
 
+        private bool _carriersView = false;
+        public bool CarriersView
+        {
+            get { return _carriersView; }
+            set { SetProperty(ref _carriersView, value); }
+        }
+
+        private bool _carrierssAdd = false;
+        public bool CarriersAdd
+        {
+            get { return _carrierssAdd; }
+            set { SetProperty(ref _carrierssAdd, value); }
+        }
+
+        private bool _carrierssEdit = false;
+        public bool CarriersEdit
+        {
+            get { return _carrierssEdit; }
+            set { SetProperty(ref _carrierssEdit, value); }
+        }
+
+        private bool _carriersDelete = false;
+        public bool CarriersDelete
+        {
+            get { return _carriersDelete; }
+            set { SetProperty(ref _carriersDelete, value); }
+        }
+
+
+
         private bool _rolesView = false;
         public bool RolesView
         {
@@ -401,31 +431,31 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             LocationsEdit      = role.LocationsEdit;
             LocationsDelete    = role.LocationsDelete;
 
+            SuppliersView   = role.SuppliersView;
+            SuppliersAdd    = role.SuppliersAdd;
+            SuppliersEdit   = role.SuppliersEdit;
+            SuppliersDelete = role.SuppliersDelete;
 
-            SuppliersView      = role.SuppliersView;
-            SuppliersAdd       = role.SuppliersAdd;
-            SuppliersEdit      = role.SuppliersEdit;
-            SuppliersDelete    = role.SuppliersDelete;
+            CarriersView    = role.CarriersView;
+            CarriersAdd     = role.CarriersAdd;
+            CarriersEdit    = role.CarriersEdit;
+            CarriersDelete  = role.CarriersDelete;
 
-
-            RolesView      = role.RolesView;
+            RolesView       = role.RolesView;
             RolesAdd       = role.RolesAdd;
             RolesEdit      = role.RolesEdit;
             RolesDelete    = role.RolesDelete;
-
 
             StaffsView      = role.StaffsView;
             StaffsAdd       = role.StaffsAdd;
             StaffsEdit      = role.StaffsEdit;
             StaffsDelete    = role.StaffsDelete;
 
-
             LogsView      = role.LogsView;
             LogsAdd       = role.LogsAdd;
             LogsEdit      = role.LogsEdit;
             LogsDelete    = role.LogsDelete;
         }
-
 
 
         protected override void Dispose(bool disposing)
