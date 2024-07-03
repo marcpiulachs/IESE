@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace ProjectLex.InventoryManagement.Desktop.DAL
 {
-    public class GenericRepository<TEntity> where TEntity : class
+
+
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         internal InventoryManagementContext context;
         internal DbSet<TEntity> dbSet;

@@ -1,9 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using ProjectLex.InventoryManagement.Database.Models;
-using ProjectLex.InventoryManagement.Desktop.DAL;
-using ProjectLex.InventoryManagement.Desktop.Stores;
-using ProjectLex.InventoryManagement.Desktop.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -13,16 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using ProjectLex.InventoryManagement.Database.Models;
+using ProjectLex.InventoryManagement.Desktop.DAL;
+using ProjectLex.InventoryManagement.Desktop.Stores;
+using ProjectLex.InventoryManagement.Desktop.Utilities;
+
 using static ProjectLex.InventoryManagement.Desktop.Utilities.Constants;
 
 namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 {
-    public class EditOrderViewModel : ViewModelBase
+    public partial class EditOrderViewModel : ViewModelBase
     {
         private bool _isDisposed = false;
 
         private Order _order;
-
 
         private CustomerViewModel _customer;
 
@@ -35,16 +36,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         private string _deliveryStatus;
 
+        [ObservableProperty]
         [Required(ErrorMessage = "Delivery Status is Required")]
-        public string DeliveryStatus
-        {
-            get { return _deliveryStatus; }
-            set
-            {
-                SetProperty(ref _deliveryStatus, value, true);
-            }
-        }
-
+        public string deliveryStatus;
 
         private string _orderTotal;
 
@@ -62,8 +56,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public bool IsDialogOpen => _isDialogOpen;
 
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
 
         private readonly ObservableCollection<OrderDetailViewModel> _orderDetails;
@@ -75,16 +69,13 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
 
 
-        public RelayCommand SubmitCommand { get; }
-        public RelayCommand CancelCommand { get; }
         public RelayCommand NavigateToCreateOrderDetailCommand { get; }
 
         public RelayCommand LoadOrderDetailsCommand { get; }
         public RelayCommand<OrderDetailViewModel> RemoveOrderDetailCommand { get; }
         public RelayCommand<OrderDetailViewModel> EditOrderDetailCommand { get; }
-        public RelayCommand CreateOrderDetailCommand { get; }
 
-        public EditOrderViewModel(NavigationStore navigationStore, Guid orderID)
+        public EditOrderViewModel(INavigationStore navigationStore, Guid orderID)
         {
             _navigationStore = navigationStore;
             _unitOfWork = new UnitOfWork();
@@ -98,13 +89,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _orderDetails = new ObservableCollection<OrderDetailViewModel>();
             SetInitialValues(_order);
 
-            
-            SubmitCommand = new RelayCommand(Submit);
-            CancelCommand = new RelayCommand(Cancel);
-
             RemoveOrderDetailCommand = new RelayCommand<OrderDetailViewModel>(RemoveOrderDetail);
             EditOrderDetailCommand = new RelayCommand<OrderDetailViewModel>(EditOrderDetail);
-            CreateOrderDetailCommand = new RelayCommand(CreateOrderDetail);
         }
 
         private void SetInitialValues(Order order)
@@ -119,7 +105,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-
+        [RelayCommand]
         private void Submit()
         {
             ValidateAllProperties();
@@ -151,9 +137,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             CancelCommand.Execute(null);
         }
 
+        [RelayCommand]
         private void Cancel()
         {
-            _navigationStore.CurrentViewModel = OrderListViewModel.LoadViewModel(_navigationStore);
+            _navigationStore.CurrentViewModel = OrderListViewModel.LoadViewModel(_navigationStore, _unitOfWork);
         }
 
         private void RemoveOrderDetail(OrderDetailViewModel orderDetailViewModel)
@@ -193,6 +180,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         }
 
+        [RelayCommand]
         private void CreateOrderDetail()
         {
             _dialogViewModel?.Dispose();
@@ -213,12 +201,11 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static EditOrderViewModel LoadViewModel(NavigationStore navigationStore, Order order)
+        public static EditOrderViewModel LoadViewModel(INavigationStore navigationStore, Order order)
         {
             EditOrderViewModel viewModel = new EditOrderViewModel(navigationStore, order.OrderID);
             return viewModel;
         }
-
 
         protected override void Dispose(bool disposing)
         {
@@ -227,7 +214,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing)
                 {
                     // dispose managed resources
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                 }
                 // dispose unmanaged resources

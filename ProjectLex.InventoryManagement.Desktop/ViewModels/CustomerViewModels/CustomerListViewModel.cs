@@ -25,8 +25,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private ViewModelBase _dialogViewModel;
         public ViewModelBase DialogViewModel => _dialogViewModel;
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
         public CustomerListViewHelper CustomerListViewHelper { get; }
 
@@ -38,10 +38,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand<CustomerViewModel> RemoveCustomerCommand { get; }
         public RelayCommand<CustomerViewModel> EditCustomerCommand { get; }
 
-        public CustomerListViewModel(NavigationStore navigationStore)
+        public CustomerListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _customers = new ObservableCollection<CustomerViewModel>();
             Customers = new ObservableCollection<CustomerViewModel>();
 
@@ -108,9 +108,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             CustomerListViewHelper.RefreshCollection();
         }
 
-        public static CustomerListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static CustomerListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            CustomerListViewModel viewModel = new CustomerListViewModel(navigationStore);
+            CustomerListViewModel viewModel = new CustomerListViewModel(navigationStore, unitOfWork);
             viewModel.LoadCustomersCommand.Execute(null);
 
             return viewModel;
@@ -126,7 +126,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     CustomerListViewHelper?.Dispose();
                 }

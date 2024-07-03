@@ -56,8 +56,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly Action _closeDialogCallback;
 
         private readonly ObservableCollection<ProductViewModel> _products;
@@ -67,7 +67,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand CancelCommand { get; }
         private RelayCommand LoadProductsCommand { get; }
 
-        public CreateDefectiveViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Action closeDialogCallback)
+        public CreateDefectiveViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _unitOfWork = unitOfWork;
@@ -126,7 +126,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-        public static CreateDefectiveViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Action closeDialogCallback)
+        public static CreateDefectiveViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Action closeDialogCallback)
         {
             CreateDefectiveViewModel viewModel = new CreateDefectiveViewModel(navigationStore, unitOfWork, closeDialogCallback);
             viewModel.LoadProductsCommand.Execute(null);

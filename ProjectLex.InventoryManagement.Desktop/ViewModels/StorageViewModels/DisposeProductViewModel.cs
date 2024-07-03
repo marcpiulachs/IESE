@@ -34,14 +34,14 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             set { SetProperty(ref _disposeQuantity, value, true); }
         }
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RelayCommand SubmitCommand { get; }
         public RelayCommand CancelCommand { get; }
         private Action _closeDialogCallback;
 
-        public DisposeProductViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
+        public DisposeProductViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _unitOfWork = unitOfWork;
@@ -85,7 +85,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static DisposeProductViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
+        public static DisposeProductViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
         {
             DisposeProductViewModel viewModel = new DisposeProductViewModel(navigationStore, unitOfWork, productLocation, closeDialogCallback);
             return viewModel;

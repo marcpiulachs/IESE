@@ -25,8 +25,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private ViewModelBase _dialogViewModel;
         public ViewModelBase DialogViewModel => _dialogViewModel;
 
-        private UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
         public LocationListViewHelper LocationListViewHelper { get; }
 
@@ -38,10 +38,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand<LocationViewModel> EditLocationCommand { get; }
         public RelayCommand<LocationViewModel> RemoveLocationCommand { get; }
 
-        public LocationListViewModel(NavigationStore navigationStore)
+        public LocationListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _locations = new ObservableCollection<LocationViewModel>();
             Locations = new ObservableCollection<LocationViewModel>();
 
@@ -103,9 +103,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static LocationListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static LocationListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            LocationListViewModel viewModel = new LocationListViewModel(navigationStore);
+            LocationListViewModel viewModel = new LocationListViewModel(navigationStore, unitOfWork);
             viewModel.LoadLocationsCommand.Execute(null);
             return viewModel;
         }
@@ -121,7 +121,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     LocationListViewHelper.Dispose();
                 }

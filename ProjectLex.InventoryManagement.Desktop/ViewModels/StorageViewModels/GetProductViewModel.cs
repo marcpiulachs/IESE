@@ -43,15 +43,15 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             set { SetProperty(ref _productQuantity, value, true); }
         }
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
 
         public RelayCommand SubmitCommand { get; }
         public RelayCommand CancelCommand { get; }
         private Action _closeDialogCallback;
 
-        public GetProductViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
+        public GetProductViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _unitOfWork = unitOfWork;
@@ -99,7 +99,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static GetProductViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
+        public static GetProductViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
         {
             GetProductViewModel viewModel = new GetProductViewModel(navigationStore, unitOfWork, productLocation, closeDialogCallback);
             return viewModel;

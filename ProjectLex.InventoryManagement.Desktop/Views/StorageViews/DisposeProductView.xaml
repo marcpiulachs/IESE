@@ -83,12 +83,12 @@
                     Content="Submit"
                     Command="{Binding SubmitCommand }"
                     CommandParameter="{Binding}"
-                    Style="{StaticResource MaterialDesignPaperButton}"/>
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
             <Button 
                     Margin="25 0 0 0" 
                     Content="Cancel"
                     Command="{ Binding CancelCommand }"
-                    Style="{StaticResource MaterialDesignPaperLightButton}"/>
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
 
         </StackPanel>
     </Grid>

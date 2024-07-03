@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 {
-    class CreateOrderDetailViewModel : ViewModelBase
+    public partial class CreateOrderDetailViewModel : ViewModelBase
     {
         private bool _isDisposed = false;
 
@@ -83,18 +83,17 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly ObservableCollection<ProductViewModel> _products;
         public IEnumerable<ProductViewModel> Products => _products;
 
-        public RelayCommand SubmitCommand { get; }
-        public RelayCommand CancelCommand { get; }
+
         private RelayCommand LoadProductsCommand { get; }
         private Action _closeDialogCallback;
 
-        public CreateOrderDetailViewModel(NavigationStore navigationStore, Order order, UnitOfWork u, Action closeDialogCallback)
+        public CreateOrderDetailViewModel(INavigationStore navigationStore, Order order, IUnitOfWork u, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _unitOfWork = u;
@@ -102,11 +101,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _closeDialogCallback = closeDialogCallback;
             _products = new ObservableCollection<ProductViewModel>();
             LoadProducts(_products);
-
-            SubmitCommand = new RelayCommand(Submit);
-            CancelCommand = new RelayCommand(Cancel);
         }
 
+        [RelayCommand]
         private void Submit()
         {
             ValidateAllProperties();
@@ -160,9 +157,11 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                     storedOrderDetail.Product.ProductQuantity -= Convert.ToInt32(_orderDetailQuantity);
                 }
             }
+
             _closeDialogCallback();
         }
 
+        [RelayCommand]
         private void Cancel()
         {
             _closeDialogCallback();
@@ -177,13 +176,11 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-
-        public static CreateOrderDetailViewModel LoadViewModel(NavigationStore navigationStore, Order order, UnitOfWork u, Action closeDialogCallback)
+        public static CreateOrderDetailViewModel LoadViewModel(INavigationStore navigationStore, Order order, IUnitOfWork u, Action closeDialogCallback)
         {
             CreateOrderDetailViewModel viewModel = new CreateOrderDetailViewModel(navigationStore, order, u, closeDialogCallback);
             return viewModel;
         }
-
 
         protected override void Dispose(bool disposing)
         {
@@ -192,7 +189,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing)
                 {
                     // dispose managed resources
-                    _unitOfWork.Dispose();
+//                    _unitOfWork.Dispose();
                 }
                 // dispose unmanaged resources
             }

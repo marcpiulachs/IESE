@@ -15,7 +15,7 @@ using static ProjectLex.InventoryManagement.Desktop.Utilities.Constants;
 
 namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 {
-    public class CreateCarrierViewModel : ViewModelBase
+    public partial class CreateCarrierViewModel : DialogViewModelBase
     {
         private bool _isDisposed = false;
 
@@ -87,25 +87,16 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
-        private readonly Action _closeDialogCallback;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
-        public RelayCommand SubmitCommand { get; }
-        public RelayCommand CancelCommand { get; }
-
-        public CreateCarrierViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Action closeDialogCallback)
+        public CreateCarrierViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
             _unitOfWork = unitOfWork;
-            _closeDialogCallback = closeDialogCallback;
-
-
-            SubmitCommand = new RelayCommand(Submit);
-            CancelCommand = new RelayCommand(Cancel);
         }
 
-
+        [RelayCommand]
         private void Submit()
         {
             ValidateAllProperties();
@@ -130,22 +121,19 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _unitOfWork.LogRepository.Insert(LogUtil.CreateLog(LogCategory.CARRIERS, ActionType.CREATE, $"New Carrier Created; CarrierID: {Carrier.CarrierID};"));
 
             _unitOfWork.Save();
-            _closeDialogCallback();
+
+            Close();
         }
 
-        
-
-
-
+        [RelayCommand]
         private void Cancel()
         {
-            _closeDialogCallback();
+            Close();
         }
 
-
-        public static CreateCarrierViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Action closeDialogCallback)
+        public static CreateCarrierViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            return new CreateCarrierViewModel(navigationStore, unitOfWork, closeDialogCallback);
+            return new CreateCarrierViewModel(navigationStore, unitOfWork);
         }
 
         protected override void Dispose(bool disposing)

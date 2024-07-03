@@ -28,8 +28,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private ViewModelBase _dialogViewModel;
         public ViewModelBase DialogViewModel => _dialogViewModel;
 
-        private UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
         public RoleListViewHelper RoleListViewHelper { get; }
 
@@ -42,10 +42,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand<RoleViewModel> EditRoleCommand { get; }
         public RelayCommand<RoleViewModel> RemoveRoleCommand { get; }
 
-        public RoleListViewModel(NavigationStore navigationStore)
+        public RoleListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
 
             _roles = new ObservableCollection<RoleViewModel>();
             Roles = new ObservableCollection<RoleViewModel>();
@@ -113,9 +113,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static RoleListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static RoleListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            RoleListViewModel viewModel = new RoleListViewModel(navigationStore);
+            RoleListViewModel viewModel = new RoleListViewModel(navigationStore, unitOfWork);
             viewModel.LoadRolesCommand.Execute(null);
             return viewModel;
         }
@@ -131,7 +131,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     RoleListViewHelper.Dispose();
                 }

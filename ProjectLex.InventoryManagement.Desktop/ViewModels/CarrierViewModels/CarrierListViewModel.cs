@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
+using ProjectLex.InventoryManagement.Desktop.Services;
 using ProjectLex.InventoryManagement.Desktop.Stores;
 using ProjectLex.InventoryManagement.Desktop.Utilities;
 using ProjectLex.InventoryManagement.Desktop.ViewModels.ListViewHelpers;
@@ -16,9 +18,8 @@ using static ProjectLex.InventoryManagement.Desktop.Utilities.Constants;
 
 namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 {
-    public class CarrierListViewModel : ViewModelBase
+    public partial class CarrierListViewModel : ViewModelBase
     {
-
         private bool _isDisposed = false;
         
         private bool _isDialogOpen = false;
@@ -27,32 +28,29 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private ViewModelBase _dialogViewModel;
         public ViewModelBase DialogViewModel => _dialogViewModel;
 
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
         private readonly ObservableCollection<CarrierViewModel> _Carriers;
         public ObservableCollection<CarrierViewModel> Carriers { get; }
 
         public CarrierListViewHelper CarrierListViewHelper { get; }
 
-        public ICommand ToCreateCarrierCommand { get; }
-        public RelayCommand LoadCarriersCommand { get; }
         public RelayCommand<CarrierViewModel> RemoveCarrierCommand { get; }
         public RelayCommand<CarrierViewModel> EditCarrierCommand { get; }
-        public RelayCommand CreateCarrierCommand { get; }
 
-        public CarrierListViewModel(NavigationStore navigationStore)
+        public CarrierListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _Carriers = new ObservableCollection<CarrierViewModel>();
             Carriers = new ObservableCollection<CarrierViewModel>();
             CarrierListViewHelper = new CarrierListViewHelper(_Carriers, Carriers);
 
-            LoadCarriersCommand = new RelayCommand(LoadCarriers);
             RemoveCarrierCommand = new RelayCommand<CarrierViewModel>(RemoveCarrier);
             EditCarrierCommand = new RelayCommand<CarrierViewModel>(EditCarrier);
-            CreateCarrierCommand = new RelayCommand(CreateCarrier);
+
+            LoadCarriersCommand.Execute(null);
         }
 
         private void RemoveCarrier(CarrierViewModel CarrierViewModel)
@@ -69,26 +67,49 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-
+        [RelayCommand]
         private void CreateCarrier()
         {
+            //var a = App.Current.Services.GetRequiredService<CreateCarrierViewModel>();
+
+            var a = new EditCarrierViewModel() { Entity = new Carrier(), PopupType = PopupTypeEnum.Add };
+
+            _navigationStore.ShowDialog(a, () => {
+                LoadCarriersCommand.Execute(null);
+            });
+
+            /*
             _dialogViewModel?.Dispose();
-            _dialogViewModel = CreateCarrierViewModel.LoadViewModel(_navigationStore, _unitOfWork, CloseDialogCallback);
+            //_dialogViewModel = CreateCarrierViewModel.LoadViewModel(_navigationStore, _unitOfWork, CloseDialogCallback);
+
+            var b = App.Current.Services.GetRequiredService<CreateCarrierViewModel>();
+
+            var a = App.Current.Services.GetRequiredService<IDialogService>().OpenDialog<CreateCarrierViewModel>(b);
+            
             OnPropertyChanged(nameof(DialogViewModel));
 
             _isDialogOpen = true;
-            OnPropertyChanged(nameof(IsDialogOpen));
+            OnPropertyChanged(nameof(IsDialogOpen));*/
         }
-
 
         private void EditCarrier(CarrierViewModel CarrierViewModel)
         {
-            _dialogViewModel?.Dispose();
-            _dialogViewModel = EditCarrierViewModel.LoadViewModel(_navigationStore, _unitOfWork, CarrierViewModel.Carrier, CloseDialogCallback);
+            //_dialogViewModel?.Dispose();
+            //_dialogViewModel = EditCarrierViewModel.LoadViewModel(_navigationStore, _unitOfWork, CarrierViewModel.Carrier, CloseDialogCallback);
+
+            var a = EditCarrierViewModel.LoadViewModel(_navigationStore, _unitOfWork, CarrierViewModel.Carrier);
+
+            _navigationStore.ShowDialog(a, () => {
+                LoadCarriersCommand.Execute(null);
+            });
+
+            /*
             OnPropertyChanged(nameof(DialogViewModel));
 
             _isDialogOpen = true;
-            OnPropertyChanged(nameof(IsDialogOpen));
+            OnPropertyChanged(nameof(IsDialogOpen));*/
+
+            //LoadCarriersCommand.Execute(null);
         }
 
 
@@ -100,6 +121,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             OnPropertyChanged(nameof(IsDialogOpen));
         }
 
+        [RelayCommand]
         private void LoadCarriers()
         {
             _Carriers.Clear();
@@ -110,12 +132,13 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             CarrierListViewHelper.RefreshCollection();
         }
 
-        public static CarrierListViewModel LoadViewModel(NavigationStore navigationStore)
+        /*
+        public static CarrierListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            CarrierListViewModel viewModel = new CarrierListViewModel(navigationStore);
+            CarrierListViewModel viewModel = new CarrierListViewModel(navigationStore, unitOfWork);
             viewModel.LoadCarriersCommand.Execute(null);
             return viewModel;
-        }
+        }*/
 
         protected override void Dispose(bool disposing)
         {
@@ -126,7 +149,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     CarrierListViewHelper.Dispose();
                 }

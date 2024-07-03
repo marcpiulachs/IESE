@@ -39,9 +39,6 @@
             <DataGrid
                 Grid.Row="0"
                 ItemsSource="{Binding Locations}"
-                Style="{StaticResource MaterialDesignDataGrid}"
-                BorderBrush="Black"
-                BorderThickness="2"
                 IsReadOnly="True"
                 AutoGenerateColumns="False">
                 <DataGrid.Columns>
@@ -63,8 +60,7 @@
                                     <Button
                                         Content="See Products"
                                         Grid.Column="0"
-                                        BorderBrush="Orange"
-                                        Style="{StaticResource MaterialDesignPaperButton}"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
                                         Command="{
                                             Binding DataContext.LocationDetailsCommand, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:StorageListView}}"

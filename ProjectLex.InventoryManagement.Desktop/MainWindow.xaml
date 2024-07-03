@@ -15,7 +15,16 @@
         Background="{DynamicResource MaterialDesignBackground}"
         Foreground="{DynamicResource MaterialDesignBody}"
         FontFamily="Sogoe UI">
+                <materialDesign:DialogHost 
+        CloseOnClickAway="true" 
+        IsOpen="{ Binding IsDialogOpen, Mode=OneWay}" 
+        DialogBackground="Transparent">
 
+                    <materialDesign:DialogHost.DialogContent>
+                        <materialDesign:Card UniformCornerRadius="10">
+                            <ContentControl Content="{ Binding CurrentDialogViewModel }"/>
+                        </materialDesign:Card>
+                    </materialDesign:DialogHost.DialogContent>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -43,7 +52,9 @@
 
             </Grid>
             <Grid Grid.Column="1">
-                <ContentControl Content="{Binding CurrentViewModel}" Background="Gray"/>
+
+                    <ContentControl Content="{Binding CurrentViewModel}" Background="Gray"/>
+                
             </Grid>
         </Grid>
 
@@ -53,5 +64,5 @@
                 <TextBlock Text="" HorizontalAlignment="Center"/>
             </StackPanel>
         </Label>
-    </Grid>
+    </Grid></materialDesign:DialogHost>
 </Window>

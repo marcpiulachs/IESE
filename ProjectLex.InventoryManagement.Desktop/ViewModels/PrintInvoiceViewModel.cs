@@ -28,8 +28,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private DateTime _currentDateTime = DateTime.Now;
         public DateTime CurrentDateTime => _currentDateTime;
 
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
         private readonly ObservableCollection<OrderDetailViewModel> _orderDetails;
         public IEnumerable<OrderDetailViewModel> OrderDetails => _orderDetails;
 
@@ -37,7 +37,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand LoadOrderDetailsCommand { get; }
         public RelayCommand<InvoiceDocumentControl> PrintCommand { get; }
 
-        public PrintInvoiceViewModel(NavigationStore navigationStore, Guid orderID)
+        public PrintInvoiceViewModel(INavigationStore navigationStore, Guid orderID)
         {
             _navigationStore = navigationStore;
             _unitOfWork = new UnitOfWork();
@@ -74,7 +74,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-        public static PrintInvoiceViewModel LoadViewModel(NavigationStore navigationStore, Guid orderID)
+        public static PrintInvoiceViewModel LoadViewModel(INavigationStore navigationStore, Guid orderID)
         {
             PrintInvoiceViewModel viewModel = new PrintInvoiceViewModel(navigationStore, orderID);
             viewModel.LoadOrderDetailsCommand.Execute(null);
@@ -90,7 +90,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                 }
 
             }

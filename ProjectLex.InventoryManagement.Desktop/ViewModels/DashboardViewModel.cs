@@ -1,6 +1,4 @@
-﻿using LiveCharts;
-using LiveCharts.Wpf;
-using ProjectLex.InventoryManagement.Desktop.DAL;
+﻿using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
 using System;
 using System.Collections.Generic;
@@ -13,8 +11,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
     class DashboardViewModel : ViewModelBase
     {
         private bool _isDisposed = false;
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
 
         private string _currentMonthRevenue;
@@ -59,20 +57,13 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             get { return _deliveredOrdersCount; }
         }
 
-        private SeriesCollection _monthlySales;
-        public SeriesCollection MonthlySales
-        {
-            get { return _monthlySales; }
-        }
-
-
 
         public string [] MonthlySalesXLabel { get; private set; }
 
-        public DashboardViewModel(NavigationStore navigationStore)
+        public DashboardViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
 
 
             _currentMonthRevenue = _unitOfWork.OrderRepository.Get(filter: o => o.OrderDate.Month == DateTime.Now.Month).Sum(o => o.OrderTotal).ToString();
@@ -87,29 +78,15 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
             var monthlySalesData = _unitOfWork.OrderRepository.Get(o => o.OrderDate.Year == DateTime.Now.Year).GroupBy(o => o.OrderDate.Month).OrderBy(o => o.Key).Select(o => new { Month = ((Month)o.Key).ToString(), Sales = o.Sum(a => a.OrderTotal) });
 
-            _monthlySales = new SeriesCollection
-            {
-                new ColumnSeries
-                {
-                    Values = new ChartValues<decimal>(monthlySalesData.Select(d =>  d.Sales))
-                }
-            };
 
             MonthlySalesXLabel = monthlySalesData.Select(d => d.Month).ToArray();
-
-
-
-
         }
 
-
-        public static DashboardViewModel LoadViewModel(NavigationStore navigationStore)
+        public static DashboardViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            DashboardViewModel dashBoardViewModel = new DashboardViewModel(navigationStore);
+            DashboardViewModel dashBoardViewModel = new DashboardViewModel(navigationStore, unitOfWork);
             return dashBoardViewModel;
         }
-
-
 
         protected override void Dispose(bool disposing)
         {
@@ -120,7 +97,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                 }
 
             }

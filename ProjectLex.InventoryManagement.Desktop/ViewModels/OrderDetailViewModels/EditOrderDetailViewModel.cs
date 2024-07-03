@@ -64,15 +64,15 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
 
         public RelayCommand SubmitCommand { get; }
         public RelayCommand CancelCommand { get; }
         private Action _closeDialogCallback;
 
-        public EditOrderDetailViewModel(NavigationStore navigationStore, OrderDetail orderDetail, UnitOfWork u, Action closeDialogCallback)
+        public EditOrderDetailViewModel(INavigationStore navigationStore, OrderDetail orderDetail, IUnitOfWork u, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _unitOfWork = u;
@@ -134,7 +134,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static EditOrderDetailViewModel LoadViewModel(NavigationStore navigationStore, OrderDetail orderDetail, UnitOfWork u, Action closeDialogCallback)
+        public static EditOrderDetailViewModel LoadViewModel(INavigationStore navigationStore, OrderDetail orderDetail, IUnitOfWork u, Action closeDialogCallback)
         {
             EditOrderDetailViewModel viewModel = new EditOrderDetailViewModel(navigationStore, orderDetail, u, closeDialogCallback);
             return viewModel;
@@ -148,7 +148,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing)
                 {
                     // dispose managed resources
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                 }
                 // dispose unmanaged resources
             }

@@ -43,7 +43,7 @@
                 <!--<Button
                     Grid.Column="1"
                     Command="{ Binding CreateDefectiveCommand }"
-                    Style="{StaticResource MaterialDesignPaperLightButton}"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
                     Margin="0 0 10 0 ">
                     <materialDesign:PackIcon Kind="Add"/>
                 </Button>-->
@@ -59,8 +59,6 @@
                     Grid.Row="0"
                     ItemsSource="{Binding Defectives}"
                     Style="{StaticResource MaterialDesignDataGrid}"
-                    BorderBrush="Black"
-                    BorderThickness="2"
                     IsReadOnly="True"
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
@@ -103,7 +101,7 @@
                                             Grid.Column="0"
                                             BorderBrush="Orange"
                                             Margin="0 0 5 0"
-                                            Style="{StaticResource MaterialDesignPaperButton}"
+                                            Style="{StaticResource MaterialDesignOutlinedButton}"
                                             Command="{
                                                 Binding DataContext.EditDefectiveCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:DefectiveListView}}"
@@ -113,13 +111,12 @@
 
                                         <Button 
                                             Grid.Column="1"
-                                            BorderBrush="Red"
                                             Command="{
                                                 Binding DataContext.RemoveDefectiveCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:DefectiveListView}}"
                                             CommandParameter="{Binding}">
                                             <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding DataContext.CurrentStaff.Role.DefectivesDelete, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                                             <Setter Property="Visibility" Value="Collapsed"/>

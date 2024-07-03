@@ -33,8 +33,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private readonly ObservableCollection<CategoryViewModel> _categories;
         public ObservableCollection<CategoryViewModel> Categories { get; }
 
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
 
         public CategoryListViewHelper CategoryListViewHelper { get; }
@@ -45,10 +45,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand CreateCategoryCommand { get; }
 
 
-        public CategoryListViewModel(NavigationStore navigationStore)
+        public CategoryListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _categories = new ObservableCollection<CategoryViewModel>();
             Categories = new ObservableCollection<CategoryViewModel>();
             CategoryListViewHelper = new CategoryListViewHelper(_categories, Categories);
@@ -105,9 +105,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             CategoryListViewHelper.RefreshCollection();
         }
 
-        public static CategoryListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static CategoryListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            CategoryListViewModel viewModel = new CategoryListViewModel(navigationStore);
+            CategoryListViewModel viewModel = new CategoryListViewModel(navigationStore, unitOfWork);
             viewModel.LoadCategoriesCommand.Execute(null);
             return viewModel;
         }
@@ -132,7 +132,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     CategoryListViewHelper?.Dispose();
                 }

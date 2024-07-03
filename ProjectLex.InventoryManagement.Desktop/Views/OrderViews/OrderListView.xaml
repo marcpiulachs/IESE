@@ -45,7 +45,7 @@
                     Grid.Column="1"
                     Command="{ Binding CreateOrderCommand }">
                     <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding DataContext.CurrentStaff.Role.OrdersAdd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -67,8 +67,6 @@
                     Grid.Row="0"
                     ItemsSource="{Binding Orders}"
                     Style="{StaticResource MaterialDesignDataGrid}"
-                    BorderBrush="Black"
-                    BorderThickness="2"
                     IsReadOnly="True"
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
@@ -113,8 +111,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Button 
                                             Margin="0 0 5 0"
-                                            BorderBrush="Orange"
-                                            Style="{StaticResource MaterialDesignPaperButton}"
+                                            Style="{StaticResource MaterialDesignOutlinedButton}"
                                             Command="{
                                                 Binding DataContext.PrintInvoiceCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:OrderListView}}"
@@ -124,13 +121,12 @@
                                         
                                         <Button 
                                             Margin="0 0 5 0"
-                                            BorderBrush="Orange"
                                             Command="{
                                                 Binding DataContext.EditOrderCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:OrderListView}}"
                                             CommandParameter="{Binding}">
                                             <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding DataContext.CurrentStaff.Role.OrdersEdit, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -142,13 +138,12 @@
                                         </Button>
 
                                         <Button 
-                                            BorderBrush="Red"
                                             Command="{
                                                 Binding DataContext.RemoveOrderCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:OrderListView}}"
                                             CommandParameter="{Binding}">
                                             <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding DataContext.CurrentStaff.Role.OrdersDelete, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                                             <Setter Property="Visibility" Value="Collapsed"/>

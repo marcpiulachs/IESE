@@ -17,8 +17,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
     {
         private bool _isDisposed = false;
 
-        private UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
         public StorageListViewHelper StorageListViewHelper { get; }
 
@@ -30,10 +30,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand CreateLocationCommand { get; }
         public RelayCommand<LocationViewModel> LocationDetailsCommand { get; }
 
-        public StorageListViewModel(NavigationStore navigationStore)
+        public StorageListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _locations = new ObservableCollection<LocationViewModel>();
             Locations = new ObservableCollection<LocationViewModel>();
 
@@ -61,9 +61,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static StorageListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static StorageListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            StorageListViewModel viewModel = new StorageListViewModel(navigationStore);
+            StorageListViewModel viewModel = new StorageListViewModel(navigationStore, unitOfWork);
             viewModel.LoadLocationsCommand.Execute(null);
             return viewModel;
         }
@@ -79,7 +79,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     StorageListViewHelper.Dispose();
                 }
 

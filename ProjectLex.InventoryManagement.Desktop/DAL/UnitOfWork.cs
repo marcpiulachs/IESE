@@ -9,13 +9,17 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ProjectLex.InventoryManagement.Desktop.DAL
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IDisposable, IUnitOfWork
     {
         private bool disposed = false;
 
         private InventoryManagementContext _context;
         private IDbContextTransaction _transaction;
 
+        public IGenericRepository<TEntity> GenericRepository<TEntity>() where TEntity : class
+        {
+            return new GenericRepository<TEntity>(_context);
+        }
 
         public GenericRepository<Role> RoleRepository { get; }
         public GenericRepository<Category> CategoryRepository { get; }
@@ -67,9 +71,9 @@ namespace ProjectLex.InventoryManagement.Desktop.DAL
             _transaction.Commit();
         }
 
-        public void Save()
+        public int Save()
         {
-            _context.SaveChanges();
+            return _context.SaveChanges();
         }
 
         protected virtual void Dispose(bool disposing)

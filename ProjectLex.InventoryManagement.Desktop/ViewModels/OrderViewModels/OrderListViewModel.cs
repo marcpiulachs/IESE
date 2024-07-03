@@ -17,7 +17,7 @@ using static ProjectLex.InventoryManagement.Desktop.Utilities.Constants;
 
 namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 {
-    public class OrderListViewModel : ViewModelBase
+    public partial class OrderListViewModel : ViewModelBase
     {
 
         private bool _isDisposed = false;
@@ -28,8 +28,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private ViewModelBase _dialogViewModel;
         public ViewModelBase DialogViewModel => _dialogViewModel;
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
         public OrderListViewHelper OrderListViewHelper { get; }
 
@@ -42,10 +42,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand<OrderViewModel> EditOrderCommand { get; }
         public RelayCommand<OrderViewModel> PrintInvoiceCommand { get; }
 
-        public OrderListViewModel(NavigationStore navigationStore)
+        public OrderListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _orders = new ObservableCollection<OrderViewModel>();
             Orders = new ObservableCollection<OrderViewModel>();
 
@@ -90,7 +90,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         private void CreateOrder(OrderViewModel orderViewModel)
         {
-            _navigationStore.CurrentViewModel = CreateOrderViewModel.LoadViewModel(_navigationStore);
+            _navigationStore.CurrentViewModel = CreateOrderViewModel.LoadViewModel(_navigationStore, new UnitOfWork());
         }
 
         private void LoadOrders()
@@ -105,9 +105,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
         
 
-        public static OrderListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static OrderListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            OrderListViewModel viewModel = new OrderListViewModel(navigationStore);
+            OrderListViewModel viewModel = new OrderListViewModel(navigationStore, unitOfWork);
             viewModel.LoadOrdersCommand.Execute(null);
 
             return viewModel;
@@ -123,7 +123,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     OrderListViewHelper.Dispose();
                 }

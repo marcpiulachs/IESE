@@ -105,8 +105,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly Action _closeDialogCallback;
 
         private readonly ObservableCollection<CategoryViewModel> _categories;
@@ -126,7 +126,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private RelayCommand LoadCategoriesCommand { get; }
         private RelayCommand LoadLocationsCommand { get; }
 
-        public CreateProductViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Action closeDialogCallback)
+        public CreateProductViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _unitOfWork = unitOfWork;
@@ -211,7 +211,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         }
 
-        public static CreateProductViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Action closeDialogCallback)
+        public static CreateProductViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Action closeDialogCallback)
         {
             CreateProductViewModel viewModel = new CreateProductViewModel(navigationStore, unitOfWork, closeDialogCallback);
             viewModel.LoadLocationsCommand.Execute(null);

@@ -22,13 +22,13 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private ViewModelBase _dialogViewModel;
         public ViewModelBase DialogViewModel => _dialogViewModel;
 
-        private UnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
 
         private readonly Location _location;
 
         public LocationViewModel Location => new LocationViewModel(_location);
 
-        private readonly NavigationStore _navigationStore;
+        private readonly INavigationStore _navigationStore;
 
         public StorageDetailListViewHelper StorageDetailListViewHelper { get; }
 
@@ -42,7 +42,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand<ProductLocationViewModel> DeclareDefectiveProductCommand { get; }
         public RelayCommand<ProductLocationViewModel> MoveProductCommand { get; }
 
-        public StorageDetailViewModel(NavigationStore navigationStore, Guid locationID)
+        public StorageDetailViewModel(INavigationStore navigationStore, Guid locationID)
         {
             _navigationStore = navigationStore;
             _unitOfWork = new UnitOfWork();
@@ -129,7 +129,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static StorageDetailViewModel LoadViewModel(NavigationStore navigationStore, Guid locationID)
+        public static StorageDetailViewModel LoadViewModel(INavigationStore navigationStore, Guid locationID)
         {
             StorageDetailViewModel viewModel = new StorageDetailViewModel(navigationStore, locationID);
             viewModel.LoadProductLocationsCommand.Execute(null);
@@ -147,7 +147,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     StorageDetailListViewHelper.Dispose();
                 }

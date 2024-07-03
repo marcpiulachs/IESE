@@ -50,8 +50,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly Action _closeDialogCallback;
 
         private readonly ObservableCollection<LocationViewModel> _locations;
@@ -61,7 +61,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand CancelCommand { get; }
         private RelayCommand LoadLocationsCommand { get; }
 
-        public MoveProductViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
+        public MoveProductViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _unitOfWork = unitOfWork;
@@ -149,7 +149,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-        public static MoveProductViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
+        public static MoveProductViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, ProductLocation productLocation, Action closeDialogCallback)
         {
             MoveProductViewModel viewModel = new MoveProductViewModel(navigationStore, unitOfWork, productLocation, closeDialogCallback);
             viewModel.LoadLocationsCommand.Execute(null);

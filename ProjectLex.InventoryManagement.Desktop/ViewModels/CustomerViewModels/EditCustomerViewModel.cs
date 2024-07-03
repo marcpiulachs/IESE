@@ -101,8 +101,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly Action _closeDialogCallback;
 
         private readonly ObservableCollection<StaffViewModel> _staffs;
@@ -116,7 +116,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand LoadStaffsCommand { get; }
         private RelayCommand LoadCarriersCommand { get; }
 
-        public EditCustomerViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Customer customer, Action closeDialogCallback)
+        public EditCustomerViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Customer customer, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _customer = customer;
@@ -182,7 +182,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         }
 
-        public static EditCustomerViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Customer customer, Action closeDialogCallback)
+        public static EditCustomerViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Customer customer, Action closeDialogCallback)
         {
             EditCustomerViewModel viewModel = new EditCustomerViewModel(navigationStore, unitOfWork, customer, closeDialogCallback);
             viewModel.LoadStaffsCommand.Execute(null);

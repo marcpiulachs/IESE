@@ -12,10 +12,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 {
-    class LoginViewModel : ViewModelBase
+    public partial class LoginViewModel : ViewModelBase
     {
 
         private bool _isDisposed = false;
@@ -24,38 +26,26 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public bool IsDarkTheme { get; set; }
         private readonly PaletteHelper paletteHelper = new PaletteHelper();
 
+        [ObservableProperty]
+        private string _username = string.Empty;
 
-        private string _username;
-        public string Username
-        {
-            get => _username;
-            set
-            {
-                SetProperty(ref _username, value);
-            }
-        }
+        [ObservableProperty]
+        private string _password = string.Empty;
 
+        private readonly IUnitOfWork _unitOfWork;
 
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IAuthenticationStore _authenticationStore;
 
-        private readonly NavigationStore _navigationStore;
-        private readonly AuthenticationStore _authenticationStore;
-        public RelayCommand ToggleThemeCommand { get; }
-        public RelayCommand HelpCommand { get; }
-        public RelayCommand ExitAppCommand { get; }
-        public RelayCommand<object> LoginUserCommand { get; }
-
-        public LoginViewModel(NavigationStore navigationStore, AuthenticationStore authenticationStore)
+        public LoginViewModel(INavigationStore navigationStore, IAuthenticationStore authenticationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _authenticationStore = authenticationStore;
-            ToggleThemeCommand = new RelayCommand(ToggleTheme);
-            HelpCommand = new RelayCommand(Help);
-            LoginUserCommand = new RelayCommand<object>(LoginUser);
-            ExitAppCommand = new RelayCommand(ExitApp);
+
         }
 
+        [RelayCommand]
         public void Help()
         {
             MessageBox.Show(Application.Current.MainWindow,"Contact Us\n\n" +
@@ -63,40 +53,36 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 "Facebook Page: ProjectLex Software Lab", "Help");
         }
 
+        [RelayCommand]
         public void ToggleTheme()
         {
-            /*
-            ITheme theme = paletteHelper.GetTheme();
-
+            Theme theme = paletteHelper.GetTheme();
+            
             if (IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
             {
                 IsDarkTheme = false;
-                theme.SetBaseTheme(Theme.Light);
+                theme.SetBaseTheme(BaseTheme.Light);
             }
             else
             {
                 IsDarkTheme = true;
-                theme.SetBaseTheme(Theme.Dark);
+                theme.SetBaseTheme(BaseTheme.Dark);
             }
 
-            paletteHelper.SetTheme(theme);*/
+            paletteHelper.SetTheme(theme);
         }
 
+        [RelayCommand]
         public void ExitApp()
         {
             Application.Current.Shutdown();
         }
 
 
-        private void LoginUser(object obj)
+        [RelayCommand]
+        private void LoginUser()
         {
-            PasswordBox passwordBox = obj as PasswordBox;
-
-            string username = _username;
-            string password = passwordBox.Password;
-
-
-            Staff storedStaff = _unitOfWork.StaffRepository.Get(s => s.StaffUsername == username && s.StaffPassword == password, includeProperties: "Role").SingleOrDefault();
+            Staff storedStaff = _unitOfWork.StaffRepository.Get(s => s.StaffUsername == Username && s.StaffPassword == Password, includeProperties: "Role").SingleOrDefault();
 
             if(storedStaff == null)
             {
@@ -107,7 +93,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _authenticationStore.CurrentStaff = storedStaff;
             _authenticationStore.IsLoggedIn = true;
 
-            _navigationStore.CurrentViewModel = DashboardViewModel.LoadViewModel(_navigationStore);
+            _navigationStore.CurrentViewModel = App.Current.Services.GetRequiredService<DashboardViewModel>();
         }
 
 
@@ -121,7 +107,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                 }
 
             }

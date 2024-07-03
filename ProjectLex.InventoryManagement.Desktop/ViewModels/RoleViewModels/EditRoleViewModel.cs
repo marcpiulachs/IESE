@@ -65,14 +65,14 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         public RolePrivilegesHelper RolePrivilegesHelper { get; }
 
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
         private readonly Action _closeDialogCallback;
 
         public RelayCommand SubmitCommand { get; }
         public RelayCommand CancelCommand { get; }
 
-        public EditRoleViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Role role, Action closeDialogCallback)
+        public EditRoleViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Role role, Action closeDialogCallback)
         {
             _unitOfWork = unitOfWork;
             _navigationStore = navigationStore;
@@ -180,7 +180,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _closeDialogCallback();
         }
 
-        public static EditRoleViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Role role, Action closeDialogCallback)
+        public static EditRoleViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Role role, Action closeDialogCallback)
         {
             EditRoleViewModel viewModel = new EditRoleViewModel(navigationStore, unitOfWork, role, closeDialogCallback);
             return viewModel;

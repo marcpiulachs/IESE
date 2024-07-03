@@ -18,8 +18,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         public LogListViewHelper LogListViewHelper { get; }
 
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
         private readonly ObservableCollection<LogViewModel> _logs;
         public ObservableCollection<LogViewModel> Logs { get; }
@@ -28,10 +28,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand LoadLogsCommand { get; }
 
 
-        public LogListViewModel(NavigationStore navigationStore)
+        public LogListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _logs = new ObservableCollection<LogViewModel>();
             Logs = new ObservableCollection<LogViewModel>();
 
@@ -49,9 +49,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             LogListViewHelper.RefreshCollection();
         }
 
-        public static LogListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static LogListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            LogListViewModel viewModel = new LogListViewModel(navigationStore);
+            LogListViewModel viewModel = new LogListViewModel(navigationStore, unitOfWork);
             viewModel.LoadLogsCommand.Execute(null);
             return viewModel;
         }
@@ -65,7 +65,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     LogListViewHelper.Dispose();
                 }
 

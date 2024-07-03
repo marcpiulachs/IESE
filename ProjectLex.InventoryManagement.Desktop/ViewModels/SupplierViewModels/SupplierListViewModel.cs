@@ -27,8 +27,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private ViewModelBase _dialogViewModel;
         public ViewModelBase DialogViewModel => _dialogViewModel;
 
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
         private readonly ObservableCollection<SupplierViewModel> _suppliers;
         public ObservableCollection<SupplierViewModel> Suppliers { get; }
@@ -41,10 +41,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand<SupplierViewModel> EditSupplierCommand { get; }
         public RelayCommand CreateSupplierCommand { get; }
 
-        public SupplierListViewModel(NavigationStore navigationStore)
+        public SupplierListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _suppliers = new ObservableCollection<SupplierViewModel>();
             Suppliers = new ObservableCollection<SupplierViewModel>();
             SupplierListViewHelper = new SupplierListViewHelper(_suppliers, Suppliers);
@@ -68,7 +68,6 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 MessageBox.Show("Successful");
             }
         }
-
 
         private void CreateSupplier()
         {
@@ -110,9 +109,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             SupplierListViewHelper.RefreshCollection();
         }
 
-        public static SupplierListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static SupplierListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            SupplierListViewModel viewModel = new SupplierListViewModel(navigationStore);
+            SupplierListViewModel viewModel = new SupplierListViewModel(navigationStore, unitOfWork);
             viewModel.LoadSuppliersCommand.Execute(null);
             return viewModel;
         }
@@ -126,7 +125,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     SupplierListViewHelper.Dispose();
                 }

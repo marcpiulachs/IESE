@@ -91,14 +91,14 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
         private readonly Action _closeDialogCallback;
 
         public RelayCommand SubmitCommand { get; }
         public RelayCommand CancelCommand { get; }
 
-        public EditSupplierViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Supplier supplier, Action closeDialogCallback)
+        public EditSupplierViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Supplier supplier, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _unitOfWork = unitOfWork;
@@ -150,7 +150,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _closeDialogCallback();
         }
 
-        public static EditSupplierViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Supplier supplier, Action closeDialogCallback)
+        public static EditSupplierViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Supplier supplier, Action closeDialogCallback)
         {
             EditSupplierViewModel viewModel = new EditSupplierViewModel(navigationStore, unitOfWork, supplier, closeDialogCallback);
             return viewModel;

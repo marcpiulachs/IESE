@@ -44,7 +44,7 @@
                     Grid.Column="1"
                     Command="{ Binding CreateCustomerCommand }">
                     <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding DataContext.CurrentStaff.Role.CustomersAdd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -66,8 +66,6 @@
                     Grid.Row="0"
                     ItemsSource="{Binding Customers}"
                     Style="{StaticResource MaterialDesignDataGrid}"
-                    BorderBrush="Black"
-                    BorderThickness="2"
                     IsReadOnly="True"
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
@@ -128,14 +126,13 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Button 
                                             Grid.Column="0"
-                                            BorderBrush="Orange"
                                             Margin="0 0 5 0"
                                             Command="{
                                                 Binding DataContext.EditCustomerCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:CustomerListView}}"
                                             CommandParameter="{Binding}">
                                             <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding DataContext.CurrentStaff.Role.CustomersEdit, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -148,13 +145,12 @@
 
                                         <Button 
                                             Grid.Column="1"
-                                            BorderBrush="OrangeRed"
                                             Command="{
                                                 Binding DataContext.RemoveCustomerCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:CustomerListView}}"
                                             CommandParameter="{Binding}">
                                             <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding DataContext.CurrentStaff.Role.CustomersDelete, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                                             <Setter Property="Visibility" Value="Collapsed"/>

@@ -67,14 +67,14 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
         
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
         private readonly Action _closeDialogCallback;
         public ICommand SubmitCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        public CreateCategoryViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Action closeDialogCallback)
+        public CreateCategoryViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Action closeDialogCallback)
         {
             _unitOfWork = unitOfWork;
             _navigationStore = navigationStore;
@@ -113,7 +113,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static CreateCategoryViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Action closeDialogCallback)
+        public static CreateCategoryViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Action closeDialogCallback)
         {
             return new CreateCategoryViewModel(navigationStore, unitOfWork, closeDialogCallback);
         }

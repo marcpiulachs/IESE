@@ -28,8 +28,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private ViewModelBase _dialogViewModel;
         public ViewModelBase DialogViewModel => _dialogViewModel;
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
         public StaffListViewHelper StaffListViewHelper { get; }
 
@@ -42,10 +42,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand<StaffViewModel> RemoveStaffCommand { get; }
         public RelayCommand<StaffViewModel> EditStaffCommand { get; }
 
-        public StaffListViewModel(NavigationStore navigationStore)
+        public StaffListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
 
             _staffs = new ObservableCollection<StaffViewModel>();
             Staffs = new ObservableCollection<StaffViewModel>();
@@ -56,7 +56,6 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             RemoveStaffCommand = new RelayCommand<StaffViewModel>(RemoveStaff);
             EditStaffCommand = new RelayCommand<StaffViewModel>(EditStaff);
             CreateStaffCommand = new RelayCommand(CreateStaff);
-
         }
 
 
@@ -113,9 +112,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             StaffListViewHelper.RefreshCollection();
         }
 
-        public static StaffListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static StaffListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            StaffListViewModel viewModel = new StaffListViewModel(navigationStore);
+            StaffListViewModel viewModel = new StaffListViewModel(navigationStore, unitOfWork);
             viewModel.LoadStaffsCommand.Execute(null);
 
             return viewModel;
@@ -131,7 +130,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     StaffListViewHelper.Dispose();
                 }

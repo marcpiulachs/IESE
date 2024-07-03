@@ -3,16 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using ProjectLex.InventoryManagement.Database.Data;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Database.Services;
+using System;
+using System.Windows;
+
 using ProjectLex.InventoryManagement.Desktop.DAL;
+using ProjectLex.InventoryManagement.Desktop.Services;
 using ProjectLex.InventoryManagement.Desktop.Stores;
 using ProjectLex.InventoryManagement.Desktop.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace ProjectLex.InventoryManagement.Desktop
 {
@@ -21,22 +18,19 @@ namespace ProjectLex.InventoryManagement.Desktop
     /// </summary>
     public partial class App : Application
     {
-
-        private readonly NavigationStore _navigationStore;
-        private readonly AuthenticationStore _authenticationStore;
         public App()
         {
             SplashScreen splashScreen = new SplashScreen(@"./Assets/SplashScreen.png");
             splashScreen.Show(true);
-            _navigationStore = new NavigationStore();
-            _authenticationStore = new AuthenticationStore();
+
+            Services = ConfigureServices();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             MainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel(_navigationStore,_authenticationStore)
+                DataContext = Services.GetService<MainViewModel>()
             };
 
             MainWindow.Show();
@@ -44,20 +38,35 @@ namespace ProjectLex.InventoryManagement.Desktop
             base.OnStartup(e);
         }
 
-        IServiceProvider CreateServiceProvider()
-        {
-            IServiceCollection services = new ServiceCollection();
-            
+        /// <summary>
+        /// Gets the current <see cref="App"/> instance in use
+        /// </summary>
+        public new static App Current => (App)Application.Current;
 
+        /// <summary>
+        /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
+        /// </summary>
+        public IServiceProvider Services { get; }
+
+        /// <summary>
+        /// Configures the services for the application.
+        /// </summary>
+        private static IServiceProvider ConfigureServices()
+        {
+            var services = new ServiceCollection();
+
+            services.AddSingleton<INavigationStore, NavigationStore>();
+            services.AddSingleton<IAuthenticationStore, AuthenticationStore>();
+            services.AddSingleton<IDialogService, DialogService>();
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+
+            services.AddTransient<LoginViewModel>();
+            services.AddTransient<DashboardViewModel>();
+            services.AddTransient<MainViewModel>();
+            services.AddTransient<CarrierListViewModel>();
+            services.AddTransient<CreateCarrierViewModel>();
 
             return services.BuildServiceProvider();
         }
-
-        
-
-
-
-
-
     }
 }

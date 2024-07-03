@@ -101,8 +101,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly Action _closeDialogCallback;
 
         private readonly ObservableCollection<CarrierViewModel> _carriers;
@@ -116,7 +116,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         private RelayCommand LoadCarriersCommand { get; }
 
-        public CreateCustomerViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Action closeDialogCallback)
+        public CreateCustomerViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _unitOfWork = unitOfWork;
@@ -175,7 +175,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         }
 
-        public static CreateCustomerViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Action closeDialogCallback)
+        public static CreateCustomerViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Action closeDialogCallback)
         {
             CreateCustomerViewModel viewModel = new CreateCustomerViewModel(navigationStore, unitOfWork, closeDialogCallback);
             viewModel.LoadCarriersCommand.Execute(null);

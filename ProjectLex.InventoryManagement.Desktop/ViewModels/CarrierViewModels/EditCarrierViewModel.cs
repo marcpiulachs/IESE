@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using ProjectLex.InventoryManagement.Database.Models;
 using ProjectLex.InventoryManagement.Desktop.DAL;
 using ProjectLex.InventoryManagement.Desktop.Stores;
@@ -15,116 +16,71 @@ using static ProjectLex.InventoryManagement.Desktop.Utilities.Constants;
 
 namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 {
-    public class EditCarrierViewModel : ViewModelBase
+    public partial class EditCarrierViewModel : AddEditEntityBase<Carrier>
     {
-        private bool _isDisposed = false;
+        //private bool _isDisposed = false;
 
-        private Carrier _Carrier;
+        //private Carrier _Carrier;
 
-        public string _CarrierName;
-
+        [ObservableProperty]
         [Required(ErrorMessage = "Name is Required")]
         [MinLength(2, ErrorMessage = "Name should be longer than 2 characters")]
         [MaxLength(50, ErrorMessage = "Name longer than 50 characters is Not Allowed")]
-        public string CarrierName
-        {
-            get => _CarrierName;
-            set
-            {
-                SetProperty(ref _CarrierName, value);
-            }
+        public string carrierName;
 
-        }
-
-
-        private string _CarrierAddress;
-
+        [ObservableProperty]
         [Required(ErrorMessage = "Address is Required")]
         [MinLength(10, ErrorMessage = "Address should be longer than 2 characters")]
-        public string CarrierAddress
-        {
-            get => _CarrierAddress;
-            set
-            {
-                SetProperty(ref _CarrierAddress, value);
-            }
-        }
+        public string carrierAddress;
 
-
-        private string _CarrierPhone;
-
+        [ObservableProperty]
         [Required(ErrorMessage = "Phone number is Required")]
-        public string CarrierPhone
-        {
-            get => _CarrierPhone;
-            set
-            {
-                SetProperty(ref _CarrierPhone, value);
-            }
-        }
+        private string carrierPhone;
 
-
-        private string _CarrierEmail;
-
+        [ObservableProperty]
         [Required(ErrorMessage = "Email is Required")]
         [RegularExpression("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", ErrorMessage = "Invalid Email Format")]
-        public string CarrierEmail
-        {
-            get => _CarrierEmail;
-            set
-            {
-                SetProperty(ref _CarrierEmail, value);
-            }
-        }
+        private string carrierEmail;
 
-
-        private string _CarrierStatus;
-
+        [ObservableProperty]
         [Required(ErrorMessage = "Status is Required")]
-        public string CarrierStatus
+        private string carrierStatus;
+
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+
+        public EditCarrierViewModel(/*INavigationStore navigationStore, IUnitOfWork unitOfWork, Carrier Carrier*/)
         {
-            get { return _CarrierStatus; }
-            set
-            {
-                SetProperty(ref _CarrierStatus, value);
-            }
+            //_navigationStore = navigationStore;
+            //_unitOfWork = unitOfWork;
+
+            //_Carrier = Carrier;
+            //SetInitialValues(_Carrier);
         }
 
-
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
-        private readonly Action _closeDialogCallback;
-
-        public RelayCommand SubmitCommand { get; }
-        public RelayCommand CancelCommand { get; }
-
-        public EditCarrierViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Carrier Carrier, Action closeDialogCallback)
+        public void SetInitialValues()
         {
-            _navigationStore = navigationStore;
-            _unitOfWork = unitOfWork;
-            _closeDialogCallback = closeDialogCallback;
-
-            _Carrier = Carrier;
-            SetInitialValues(_Carrier);
-
-
-
-            SubmitCommand = new RelayCommand(Submit);
-            CancelCommand = new RelayCommand(Cancel);
+            CarrierName = Entity.CarrierName;
+            CarrierAddress = Entity.CarrierAddress;
+            CarrierEmail = Entity.CarrierEmail;
+            CarrierPhone = Entity.CarrierPhone;
+            CarrierStatus = Entity.CarrierStatus;
         }
 
-        private void SetInitialValues(Carrier Carrier)
+        private void FromVMToEntity()
         {
-            CarrierName = Carrier.CarrierName;
-            CarrierAddress = Carrier.CarrierAddress;
-            CarrierEmail = Carrier.CarrierEmail;
-            CarrierPhone = Carrier.CarrierPhone;
-            CarrierStatus = Carrier.CarrierStatus;
+            Entity.CarrierName = CarrierName;
+            Entity.CarrierAddress = CarrierAddress;
+            Entity.CarrierEmail = CarrierEmail;
+            Entity.CarrierPhone = CarrierPhone;
+            Entity.CarrierStatus = CarrierStatus;
         }
 
-
+        [RelayCommand]
         private void Submit()
         {
+            FromVMToEntity();
+            /*
             ValidateAllProperties();
 
             if (HasErrors)
@@ -132,51 +88,28 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 return;
             }
 
-            _Carrier.CarrierName = _CarrierName;
-            _Carrier.CarrierAddress = _CarrierAddress;
-            _Carrier.CarrierEmail = _CarrierEmail;
-            _Carrier.CarrierPhone = _CarrierPhone;
-            _Carrier.CarrierStatus = _CarrierStatus;
 
             _unitOfWork.CarrierRepository.Update(_Carrier);
             _unitOfWork.LogRepository.Insert(LogUtil.CreateLog(LogCategory.CARRIERS, ActionType.UPDATE, $"Carrier updated; CarrierID: {_Carrier.CarrierID};"));
             _unitOfWork.Save();
-            _closeDialogCallback();
+            */
+
+            Save();
+
+            //Close();
         }
 
-
+        [RelayCommand]
         private void Cancel()
         {
-            _closeDialogCallback();
+            Close();
         }
 
-        public static EditCarrierViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Carrier Carrier, Action closeDialogCallback)
+        public static EditCarrierViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Carrier Carrier)
         {
-            EditCarrierViewModel viewModel = new EditCarrierViewModel(navigationStore, unitOfWork, Carrier, closeDialogCallback);
+            EditCarrierViewModel viewModel = new EditCarrierViewModel() { Entity = Carrier, PopupType = PopupTypeEnum.Edit }; //navigationStore, unitOfWork, Carrier);
+            viewModel.SetInitialValues();
             return viewModel;
-        }
-
-        
-
-        protected override void Dispose(bool disposing)
-        {
-            if(!this._isDisposed)
-            {
-                if(disposing)
-                {
-                    // dispose managed resources
-                }
-                // dispose unmanaged resources
-            }
-            this._isDisposed = true;
-
-            base.Dispose(disposing);
-        }
-
-
-        public bool CanModifyCarrier(object obj)
-        {
-            return true;
         }
     }
 }

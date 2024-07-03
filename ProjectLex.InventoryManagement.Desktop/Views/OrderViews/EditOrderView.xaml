@@ -96,7 +96,7 @@
 
                     <Button 
                         Command="{ Binding CreateOrderDetailCommand }"
-                        Style="{StaticResource MaterialDesignPaperButton}"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
                         Width="60">
                         <materialDesign:PackIcon Kind="Add"/>
                     </Button>
@@ -111,8 +111,6 @@
                 <DataGrid
                         ItemsSource="{Binding OrderDetails}"
                         Style="{StaticResource MaterialDesignDataGrid}"
-                        BorderBrush="Black"
-                        BorderThickness="2"
                         IsReadOnly="True"
                         AutoGenerateColumns="False">
                     <DataGrid.Columns>
@@ -147,8 +145,7 @@
                                         <Button 
                                             Grid.Column="0"
                                             Margin="0 0 5 0"
-                                            BorderBrush="Orange"
-                                            Style="{StaticResource MaterialDesignPaperButton}"
+                                            Style="{StaticResource MaterialDesignOutlinedButton}"
                                             Command="{
                                                 Binding DataContext.EditOrderDetailCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:EditOrderView}}"
@@ -158,8 +155,7 @@
 
                                         <Button 
                                             Grid.Column="1"
-                                            BorderBrush="Red"
-                                            Style="{StaticResource MaterialDesignPaperButton}"
+                                            Style="{StaticResource MaterialDesignOutlinedButton}"
                                             Command="{
                                                 Binding DataContext.RemoveOrderDetailCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:EditOrderView}}"
@@ -201,12 +197,12 @@
                     Content="Submit"
                     Command="{Binding SubmitCommand}"
                     CommandParameter="{Binding}"
-                    Style="{StaticResource MaterialDesignPaperButton}"/>
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
                 <Button 
                     Margin="10 0 0 0" 
                     Content="Cancel"
                     Command="{Binding CancelCommand}"
-                    Style="{StaticResource MaterialDesignPaperLightButton}"/>
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
 
             </StackPanel>
         </Grid>

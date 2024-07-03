@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace ProjectLex.InventoryManagement.Desktop.Stores
 {
-    public class AuthenticationStore
+    public class AuthenticationStore : IAuthenticationStore
     {
         private Staff _currentStaff;
-        public Staff CurrentStaff 
-        { 
-            get { return _currentStaff; } 
-            set 
+        public Staff CurrentStaff
+        {
+            get { return _currentStaff; }
+            set
             {
                 _currentStaff = value;
                 OnIsCurrentStaffChanged();
-            } 
-        } 
+            }
+        }
 
 
         private bool _isLoggedIn = false;

@@ -45,7 +45,7 @@
                     Grid.Column="1"
                     Command="{ Binding CreateStaffCommand }">
                     <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding DataContext.CurrentStaff.Role.StaffsAdd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -67,8 +67,6 @@
                     Grid.Row="0"
                     ItemsSource="{Binding Staffs}"
                     Style="{StaticResource MaterialDesignDataGrid}"
-                    BorderBrush="Black"
-                    BorderThickness="2"
                     IsReadOnly="True"
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
@@ -124,13 +122,12 @@
                                         <Button 
                                             Grid.Column="0"
                                             Margin="0 0 5 0"
-                                            BorderBrush="Orange"
                                             Command="{
                                                 Binding DataContext.EditStaffCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:StaffListView}}"
                                             CommandParameter="{Binding}">
                                             <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding DataContext.CurrentStaff.Role.StaffsEdit, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -143,13 +140,12 @@
 
                                         <Button 
                                             Grid.Column="1"
-                                            BorderBrush="Red"
                                             Command="{
                                                 Binding DataContext.RemoveStaffCommand, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:StaffListView}}"
                                             CommandParameter="{Binding}">
                                             <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+                                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding DataContext.CurrentStaff.Role.StaffsDelete, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                                             <Setter Property="Visibility" Value="Collapsed"/>

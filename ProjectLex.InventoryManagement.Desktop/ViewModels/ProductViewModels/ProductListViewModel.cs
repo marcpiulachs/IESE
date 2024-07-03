@@ -29,8 +29,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public ViewModelBase DialogViewModel => _dialogViewModel;
 
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
         public ProductListViewHelper ProductListViewHelper { get; }
 
@@ -44,10 +44,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand<ProductViewModel> EditProductCommand { get; }
         public RelayCommand NavigateToCreateProductCommand { get; }
 
-        public ProductListViewModel(NavigationStore navigationStore)
+        public ProductListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _products = new ObservableCollection<ProductViewModel>();
             Products = new ObservableCollection<ProductViewModel>();
 
@@ -114,9 +114,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             ProductListViewHelper.RefreshCollection();
         }
 
-        public static ProductListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static ProductListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            ProductListViewModel viewModel = new ProductListViewModel(navigationStore);
+            ProductListViewModel viewModel = new ProductListViewModel(navigationStore, unitOfWork);
             viewModel.LoadProductsCommand.Execute(null);
 
             return viewModel;
@@ -132,7 +132,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     ProductListViewHelper.Dispose();
                 }

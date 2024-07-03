@@ -63,8 +63,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public bool IsDialogOpen => _isDialogOpen;
 
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
 
         private readonly ObservableCollection<OrderDetailViewModel> _orderDetails;
@@ -85,10 +85,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand<OrderDetailViewModel> EditOrderDetailCommand { get; }
         public RelayCommand CreateOrderDetailCommand { get; }
 
-        public CreateOrderViewModel(NavigationStore navigationStore)
+        public CreateOrderViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
 
             _customers = new ObservableCollection<CustomerViewModel>();
             LoadCustomers(_customers);
@@ -139,7 +139,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
         private void Cancel()
         {
-            _navigationStore.CurrentViewModel = OrderListViewModel.LoadViewModel(_navigationStore);
+            _navigationStore.CurrentViewModel = OrderListViewModel.LoadViewModel(_navigationStore, _unitOfWork);
         }
 
         private void RemoveOrderDetail(OrderDetailViewModel orderDetailViewModel)
@@ -200,9 +200,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static CreateOrderViewModel LoadViewModel(NavigationStore navigationStore)
+        public static CreateOrderViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            CreateOrderViewModel viewModel = new CreateOrderViewModel(navigationStore);
+            CreateOrderViewModel viewModel = new CreateOrderViewModel(navigationStore, unitOfWork);
             return viewModel;
         }
 
@@ -214,7 +214,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if(disposing)
                 {
                     // dispose managed resources
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                 }
                 // dispose unmanaged resources

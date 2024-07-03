@@ -38,14 +38,14 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             }
         }
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly Action _closeDialogCallback;
 
         public RelayCommand SubmitCommand { get; }
         public RelayCommand CancelCommand { get; }
 
-        public EditDefectiveViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Defective defective, Action closeDialogCallback)
+        public EditDefectiveViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Defective defective, Action closeDialogCallback)
         {
             _defective = defective;
             _unitOfWork = unitOfWork;
@@ -94,7 +94,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _closeDialogCallback();
         }
 
-        public static EditDefectiveViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Defective defective, Action closeDialogCallback)
+        public static EditDefectiveViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Defective defective, Action closeDialogCallback)
         {
             EditDefectiveViewModel viewModel = new EditDefectiveViewModel(navigationStore, unitOfWork, defective, closeDialogCallback);
             return viewModel;

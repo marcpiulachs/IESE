@@ -36,8 +36,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
 
 
 
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
 
         public event Action<Location> Submitted;
@@ -58,7 +58,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public ICommand CancelCommand { get; set; }
         private readonly Action _closeDialogCallback;
 
-        public EditLocationViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Location location, Action closeDialogCallback)
+        public EditLocationViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Location location, Action closeDialogCallback)
         {
             _unitOfWork = new UnitOfWork();
             _navigationStore = navigationStore;
@@ -101,7 +101,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             _closeDialogCallback();
         }
 
-        public static EditLocationViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Location location, Action closeDialogCallback)
+        public static EditLocationViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Location location, Action closeDialogCallback)
         {
             return new EditLocationViewModel(navigationStore, unitOfWork, location, closeDialogCallback);
         }

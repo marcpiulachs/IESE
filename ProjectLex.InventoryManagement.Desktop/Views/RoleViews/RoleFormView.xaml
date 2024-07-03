@@ -342,13 +342,13 @@
                     Content="Submit"
                     Command="{Binding SubmitCommand}"
                     CommandParameter="{Binding}"
-                    Style="{StaticResource MaterialDesignPaperButton}"/>
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
 
                 <Button 
                     Margin="10 0 0 0" 
                     Content="Cancel"
                     Command="{ Binding CancelCommand}"
-                    Style="{StaticResource MaterialDesignPaperLightButton}"/>
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
             </StackPanel>
         </Grid>
     </ScrollViewer>

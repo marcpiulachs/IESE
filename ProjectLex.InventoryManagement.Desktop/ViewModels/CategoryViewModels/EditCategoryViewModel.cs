@@ -68,14 +68,14 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public IEnumerable<string> _statuses;
         public IEnumerable<string> Statuses => _statuses;
 
-        private readonly UnitOfWork _unitOfWork;
-        private readonly NavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
 
         private readonly Action _closeDialogCallback;
         public RelayCommand SubmitCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
 
-        public EditCategoryViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Category category, Action closeDialogCallback)
+        public EditCategoryViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Category category, Action closeDialogCallback)
         {
             _navigationStore = navigationStore;
             _category = category;
@@ -128,7 +128,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         }
 
 
-        public static EditCategoryViewModel LoadViewModel(NavigationStore navigationStore, UnitOfWork unitOfWork, Category category, Action closeDialogCallback)
+        public static EditCategoryViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork, Category category, Action closeDialogCallback)
         {
             EditCategoryViewModel viewModel = new EditCategoryViewModel(navigationStore, unitOfWork, category, closeDialogCallback);
             return viewModel;

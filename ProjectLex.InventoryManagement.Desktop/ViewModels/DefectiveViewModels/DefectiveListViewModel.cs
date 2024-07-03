@@ -27,8 +27,8 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         private ViewModelBase _dialogViewModel;
         public ViewModelBase DialogViewModel => _dialogViewModel;
 
-        private readonly NavigationStore _navigationStore;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly INavigationStore _navigationStore;
+        private readonly IUnitOfWork _unitOfWork;
 
         public DefectiveListViewHelper DefectiveListViewHelper { get; }
 
@@ -40,10 +40,10 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
         public RelayCommand<DefectiveViewModel> RemoveDefectiveCommand { get; }
         public RelayCommand<DefectiveViewModel> EditDefectiveCommand { get; }
 
-        public DefectiveListViewModel(NavigationStore navigationStore)
+        public DefectiveListViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
             _navigationStore = navigationStore;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork =unitOfWork;
 
             _defectives = new ObservableCollection<DefectiveViewModel>();
             Defectives = new ObservableCollection<DefectiveViewModel>();
@@ -110,9 +110,9 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
             DefectiveListViewHelper.RefreshCollection();
         }
 
-        public static DefectiveListViewModel LoadViewModel(NavigationStore navigationStore)
+        public static DefectiveListViewModel LoadViewModel(INavigationStore navigationStore, IUnitOfWork unitOfWork)
         {
-            DefectiveListViewModel viewModel = new DefectiveListViewModel(navigationStore);
+            DefectiveListViewModel viewModel = new DefectiveListViewModel(navigationStore, unitOfWork);
             viewModel.LoadDefectivesCommand.Execute(null);
 
             return viewModel;
@@ -128,7 +128,7 @@ namespace ProjectLex.InventoryManagement.Desktop.ViewModels
                 if (disposing) // dispose all unamanage and managed resources
                 {
                     // dispose resources here
-                    _unitOfWork.Dispose();
+                    //_unitOfWork.Dispose();
                     _dialogViewModel?.Dispose();
                     DefectiveListViewHelper?.Dispose();
                 }

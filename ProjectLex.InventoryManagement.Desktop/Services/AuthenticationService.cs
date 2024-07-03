@@ -22,7 +22,6 @@ namespace ProjectLex.InventoryManagement.Desktop.Services
             _unitOfWork = unitOfWork;
         }
 
-
         public Staff Login(string username, string password)
         {
             Staff storedStaff = _unitOfWork.StaffRepository.Get(s => s.StaffUsername == username && s.StaffPassword == password).SingleOrDefault();

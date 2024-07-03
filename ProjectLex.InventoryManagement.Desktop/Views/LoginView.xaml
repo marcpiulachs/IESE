@@ -8,7 +8,7 @@
              xmlns:converters="clr-namespace:ProjectLex.InventoryManagement.Desktop.Converters">
     
     <materialDesign:Card
-        Height="512"
+        Height="420"
         Width="300"
         UniformCornerRadius="15" 
         Background="{DynamicResource MaterialDesignPaper}">
@@ -35,20 +35,20 @@
                         Margin="0 30 0 0" 
                         x:Name="txtUsername" 
                         materialDesign:HintAssist.Hint="Enter Username" 
-                        BorderThickness="2"
                         Padding="10"
                         Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                         BorderBrush="{DynamicResource MaterialDesignDivider}" 
                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
                         />
 
-                    <PasswordBox 
+                    <TextBox 
                         Margin="0 20 0 0"
-                        x:Name="txtPassword" 
+                        x:Name="txtPassword" materialDesign:HintAssist.Hint="Enter Password" 
                         Padding="10"
-                        materialDesign:HintAssist.Hint="Enter Password" BorderThickness="2"      
+                        Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                        
                         BorderBrush="{DynamicResource MaterialDesignDivider}" 
-                        Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
                         />
 
                     <Button 
